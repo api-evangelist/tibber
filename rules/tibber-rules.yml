@@ -1,0 +1,46 @@
+extends:
+  - spectral:oas
+rules:
+  tibber-operation-id-required:
+    description: Every operation must declare an operationId in lowerCamelCase.
+    given: $.paths[*][get,post,put,delete,patch]
+    severity: error
+    then:
+      field: operationId
+      function: truthy
+  tibber-operation-summary-title-case:
+    description: Operation summaries should use Title Case sentence style.
+    given: $.paths[*][get,post,put,delete,patch].summary
+    severity: warn
+    then:
+      function: pattern
+      functionOptions:
+        match: "^[A-Z]"
+  tibber-tag-required:
+    description: Every operation must be tagged so the docs site can group it.
+    given: $.paths[*][get,post,put,delete,patch]
+    severity: error
+    then:
+      field: tags
+      function: truthy
+  tibber-bearer-or-oauth:
+    description: Every spec must declare bearer or OAuth 2.0 as a security scheme.
+    given: $.components.securitySchemes
+    severity: error
+    then:
+      function: truthy
+  tibber-server-https:
+    description: Server URLs must be HTTPS.
+    given: $.servers[*].url
+    severity: error
+    then:
+      function: pattern
+      functionOptions:
+        match: "^https://"
+  tibber-iso-currency-on-price:
+    description: Price-shaped schemas must include a `currency` field.
+    given: "$.components.schemas[?(@property == 'Price' || @property == 'TibberPrice')]"
+    severity: warn
+    then:
+      field: properties.currency
+      function: truthy

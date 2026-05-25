@@ -1,0 +1,116 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Tibber
+providerId: tibber
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: true
+tags:
+  - Energy
+  - SmartHome
+  - Retail
+  - Free
+description: >-
+  Tibber commercial offering. The retail electricity subscription is the
+  customer-facing revenue product; access to the developer GraphQL API and the
+  Data API is offered free of charge to customers and approved partners, with
+  no published per-call pricing surface.
+sources:
+  - https://tibber.com/en
+  - https://tibber.com/en/store
+  - https://developer.tibber.com/
+  - https://data-api.tibber.com/docs/
+plans:
+  - id: tibber-retail-subscription
+    name: Tibber Retail Subscription
+    type: subscription
+    description: >-
+      Hourly Nord Pool / EPEX spot price passed through to the customer at cost,
+      plus a fixed monthly fee. Available in Norway, Sweden, Germany, and the
+      Netherlands. Fee and any margin vary by market and price area.
+    entries:
+      - label: Monthly fee
+        name: monthly_fee
+        type: recurring
+        timeFrame: month
+        geo: NO|SE|DE|NL
+        unit: 1
+        price: 'market-dependent'
+        userMultiplied: false
+      - label: Energy
+        name: energy
+        type: metered
+        metric: kWh
+        limit: -1
+        timeFrame: usage
+        geo: NO|SE|DE|NL
+        unit: 1
+        price: 'spot-price-passthrough'
+        userMultiplied: false
+    elements:
+      - name: Hourly spot pricing
+      - name: Smart charging
+      - name: Smart heat pump control
+      - name: Pulse-powered live consumption (with hardware)
+      - name: In-app price-level recommendations
+  - id: tibber-pulse-hardware
+    name: Tibber Pulse Hardware
+    type: one-time
+    description: Optional hardware device clipped onto a HAN-port or P1-port smart meter to stream live consumption to the Tibber app and the GraphQL `liveMeasurement` subscription.
+    entries:
+      - label: Pulse IR / Pulse HAN / Pulse P1
+        name: pulse_device
+        type: one-time
+        timeFrame: lifetime
+        geo: NO|SE|DE|NL
+        unit: 1
+        price: 'market-dependent'
+        userMultiplied: false
+    elements:
+      - name: 2 second power resolution
+      - name: Voltage and current per phase
+      - name: Local data exfiltration via the Pulse Bridge
+  - id: tibber-graphql-developer-access
+    name: Tibber Developer GraphQL API
+    type: usage-based
+    description: >-
+      Legacy GraphQL access for active Tibber customers. Personal Access Tokens
+      are issued from the developer portal and carry no published metered cost.
+    entries:
+      - label: API requests
+        name: api_requests
+        type: metered
+        metric: requests
+        limit: rate-limited
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Read access to viewer, homes, prices, consumption, production
+      - name: Real-time liveMeasurement subscription
+      - name: sendMeterReading + sendPushNotification mutations
+  - id: tibber-data-api-access
+    name: Tibber Data API
+    type: usage-based
+    description: >-
+      OAuth 2.0 access to third-party IoT device data for approved partner
+      applications. Free of charge to integrators; quota policed by rate limits
+      rather than billing.
+    entries:
+      - label: API requests
+        name: api_requests
+        type: metered
+        metric: requests
+        limit: rate-limited
+        timeFrame: usage
+        geo: global
+        unit: 1
+        price: '0.00'
+        userMultiplied: false
+    elements:
+      - name: Vehicles, chargers, thermostats, inverters, energy systems
+      - name: Quarter-hourly to monthly history
+      - name: OAuth scopes per device category

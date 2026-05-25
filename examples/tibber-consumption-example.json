@@ -1,0 +1,35 @@
+{
+  "data": {
+    "viewer": {
+      "homes": [
+        {
+          "consumption": {
+            "nodes": [
+              {
+                "from": "2026-05-24T00:00:00+02:00",
+                "to": "2026-05-24T01:00:00+02:00",
+                "consumption": 0.842,
+                "consumptionUnit": "kWh",
+                "unitPrice": 1.1213,
+                "unitPriceVAT": 0.2243,
+                "cost": 0.944,
+                "totalCost": 0.944,
+                "currency": "NOK"
+              },
+              {
+                "from": "2026-05-24T01:00:00+02:00",
+                "to": "2026-05-24T02:00:00+02:00",
+                "consumption": 0.617,
+                "consumptionUnit": "kWh",
+                "unitPrice": 0.9821,
+                "cost": 0.606,
+                "totalCost": 0.606,
+                "currency": "NOK"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

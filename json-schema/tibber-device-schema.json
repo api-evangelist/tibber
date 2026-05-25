@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tibber/main/json-schema/tibber-device-schema.json",
+  "title": "Tibber Data API Device",
+  "description": "Third-party IoT device linked to a Tibber home: vehicle, charger, thermostat / heat pump, solar inverter, or home battery / energy system.",
+  "type": "object",
+  "required": ["id", "category"],
+  "properties": {
+    "id": { "type": "string" },
+    "category": {
+      "type": "string",
+      "enum": ["vehicle", "charger", "thermostat", "inverter", "energySystem"]
+    },
+    "vendor": { "type": "string" },
+    "model": { "type": "string" },
+    "attributes": { "type": "object", "additionalProperties": true },
+    "capabilities": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "supportedHistory": {
+      "type": "array",
+      "items": { "type": "string", "enum": ["quarterHour", "hour", "day", "month"] }
+    },
+    "maxRetentionDays": { "type": "integer", "minimum": 0 }
+  }
+}

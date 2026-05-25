@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-structure.org/draft/2024-09/schema",
+  "title": "Tibber Live Measurement",
+  "type": "record",
+  "name": "TibberLiveMeasurement",
+  "fields": [
+    { "name": "timestamp", "type": "timestamp" },
+    { "name": "power", "type": "double", "description": "Instantaneous consumption W." },
+    { "name": "powerProduction", "type": "double", "optional": true },
+    { "name": "accumulatedConsumption", "type": "double" },
+    { "name": "accumulatedProduction", "type": "double" },
+    { "name": "accumulatedCost", "type": "double", "optional": true },
+    { "name": "currency", "type": "string", "optional": true },
+    { "name": "minPower", "type": "double" },
+    { "name": "averagePower", "type": "double" },
+    { "name": "maxPower", "type": "double" },
+    { "name": "voltagePhase1", "type": "double", "optional": true },
+    { "name": "voltagePhase2", "type": "double", "optional": true },
+    { "name": "voltagePhase3", "type": "double", "optional": true },
+    { "name": "currentL1", "type": "double", "optional": true },
+    { "name": "currentL2", "type": "double", "optional": true },
+    { "name": "currentL3", "type": "double", "optional": true },
+    { "name": "signalStrength", "type": "int", "optional": true }
+  ]
+}

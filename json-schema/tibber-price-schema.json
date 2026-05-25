@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tibber/main/json-schema/tibber-price-schema.json",
+  "title": "Tibber Price",
+  "description": "Hourly spot price from the customer's current Tibber subscription, sourced from Nord Pool / EPEX day-ahead markets plus Tibber's tax and grid components.",
+  "type": "object",
+  "required": ["currency"],
+  "properties": {
+    "total": { "type": "number", "description": "Total price for the hour, including energy + tax." },
+    "energy": { "type": "number", "description": "Energy component of the price." },
+    "tax": { "type": "number", "description": "Tax and grid surcharge component." },
+    "startsAt": { "type": "string", "format": "date-time", "description": "ISO 8601 start of the hour the price applies to." },
+    "currency": { "type": "string", "examples": ["NOK", "SEK", "EUR"] },
+    "level": {
+      "type": "string",
+      "enum": ["NORMAL", "CHEAP", "VERY_CHEAP", "EXPENSIVE", "VERY_EXPENSIVE"],
+      "description": "Tibber's smart relative-price categorisation for the hour."
+    }
+  }
+}

@@ -1,0 +1,242 @@
+openapi: 3.0.3
+info:
+  title: Tibber Data API
+  description: >-
+    Tibber's modern OAuth 2.0 REST API exposing third-party connected IoT
+    devices and their historical time series. The API returns raw, normalized
+    device telemetry for vehicles, EV chargers, thermostats, heat pumps, space
+    heaters, solar inverters, and home batteries that customers have linked
+    inside the Tibber mobile app. Authentication uses the Authorization Code
+    Flow (PKCE recommended) at https://thewall.tibber.com/connect/authorize and
+    https://thewall.tibber.com/connect/token. Tibber Pulse live streaming,
+    pricing, and proprietary optimization logic are out of scope and remain on
+    the legacy GraphQL API.
+  version: v1
+  contact:
+    name: Tibber Data API
+    url: https://data-api.tibber.com/docs/
+servers:
+  - url: https://data-api.tibber.com
+    description: Tibber Data API (production)
+security:
+  - oauth2: []
+tags:
+  - name: Homes
+    description: Tibber customer homes the calling client has been granted access to.
+  - name: Devices
+    description: IoT devices linked to a home, exposed across vehicles, chargers, thermostats, inverters, and energy systems.
+  - name: History
+    description: Historical time series at quarter-hour, hourly, daily, and monthly resolution.
+paths:
+  /v1/homes:
+    get:
+      tags:
+        - Homes
+      summary: List Homes
+      operationId: listHomes
+      description: List the authenticated user's homes that the granted scopes permit access to.
+      responses:
+        '200':
+          description: Array of home identifiers and high-level home metadata.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Home'
+        '401':
+          description: Missing or expired access token.
+        '403':
+          description: Token lacks the `data-api-homes-read` scope.
+        '429':
+          description: Rate limit exceeded; honour the `Retry-After` header.
+  /v1/homes/{homeId}/devices:
+    get:
+      tags:
+        - Devices
+      summary: List Devices For Home
+      operationId: listDevicesForHome
+      description: >-
+        List all linked devices in the given home. Devices only appear when the
+        token carries the matching category scope (for example,
+        `data-api-vehicles-read` for vehicles or `data-api-thermostats-read`
+        for thermostats and heat pumps).
+      parameters:
+        - in: path
+          name: homeId
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Array of devices for the home.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Device'
+        '401': { description: Missing or expired access token. }
+        '403': { description: Token lacks a category scope. }
+        '404': { description: Home not found or not accessible to caller. }
+        '429': { description: Rate limit exceeded. }
+  /v1/homes/{homeId}/devices/{deviceId}:
+    get:
+      tags:
+        - Devices
+      summary: Get Device
+      operationId: getDevice
+      description: Return identity, attributes, capabilities, and `supportedHistory` for one device.
+      parameters:
+        - in: path
+          name: homeId
+          required: true
+          schema: { type: string, format: uuid }
+        - in: path
+          name: deviceId
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Device representation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Device'
+        '404': { description: Device not found. }
+        '429': { description: Rate limit exceeded. }
+  /v1/homes/{homeId}/devices/{deviceId}/history:
+    get:
+      tags:
+        - History
+      summary: Get Device History
+      operationId: getDeviceHistory
+      description: >-
+        Paginated, immutable historical time series for the device at the chosen
+        resolution. Use `since` and `until` to bound the window and walk
+        forward or backward; the API clamps the window to its retention policy
+        and truncates minutes, seconds, and milliseconds. Follow the `next` and
+        `prev` cursor links rather than picking arbitrary page sizes.
+      parameters:
+        - in: path
+          name: homeId
+          required: true
+          schema: { type: string, format: uuid }
+        - in: path
+          name: deviceId
+          required: true
+          schema: { type: string }
+        - in: query
+          name: resolution
+          required: true
+          schema:
+            type: string
+            enum: [quarterHour, hour, day, month]
+        - in: query
+          name: since
+          schema: { type: string, format: date-time }
+          description: Inclusive lower bound, used for forward pagination.
+        - in: query
+          name: until
+          schema: { type: string, format: date-time }
+          description: Inclusive upper bound, used for backward pagination.
+      responses:
+        '200':
+          description: A page of device history points.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceHistoryPage'
+        '404': { description: Device not found. }
+        '429': { description: Rate limit exceeded. }
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: OAuth 2.0 Authorization Code Flow with optional PKCE.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://thewall.tibber.com/connect/authorize
+          tokenUrl: https://thewall.tibber.com/connect/token
+          refreshUrl: https://thewall.tibber.com/connect/token
+          scopes:
+            openid: OpenID identity.
+            profile: User profile.
+            email: User email.
+            offline_access: Issue refresh tokens.
+            data-api-user-read: Basic user context (required baseline).
+            data-api-homes-read: List the user's homes.
+            data-api-vehicles-read: Read connected electric vehicles.
+            data-api-chargers-read: Read EV chargers and EVSE equipment.
+            data-api-thermostats-read: Read thermostats, heat pumps, and space heaters.
+            data-api-energy-systems-read: Read home batteries and hybrid systems.
+            data-api-inverters-read: Read solar inverters.
+  schemas:
+    Home:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        nickname:
+          type: string
+        timeZone:
+          type: string
+    Device:
+      type: object
+      required:
+        - id
+        - category
+      properties:
+        id:
+          type: string
+        category:
+          type: string
+          enum: [vehicle, charger, thermostat, inverter, energySystem]
+        vendor:
+          type: string
+        model:
+          type: string
+        attributes:
+          type: object
+          additionalProperties: true
+        capabilities:
+          type: array
+          items:
+            type: string
+        supportedHistory:
+          type: array
+          items:
+            type: string
+            enum: [quarterHour, hour, day, month]
+        maxRetentionDays:
+          type: integer
+    DeviceHistoryPage:
+      type: object
+      properties:
+        query:
+          type: object
+          properties:
+            effectiveStart: { type: string, format: date-time }
+            effectiveEnd: { type: string, format: date-time }
+            resolution: { type: string }
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceHistoryPoint'
+        next:
+          type: string
+          format: uri
+        prev:
+          type: string
+          format: uri
+    DeviceHistoryPoint:
+      type: object
+      properties:
+        from: { type: string, format: date-time }
+        to: { type: string, format: date-time }
+        metrics:
+          type: object
+          additionalProperties:
+            type: number

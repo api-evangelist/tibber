@@ -1,0 +1,324 @@
+aid: tibber
+name: Tibber
+url: https://raw.githubusercontent.com/api-evangelist/tibber/main/apis.yml
+humanURL: https://tibber.com/en
+image: https://tibber.com/favicon.ico
+tags:
+  - Energy
+  - SmartHome
+  - SmartMeter
+  - ElectricityPricing
+  - ElectricVehicleCharging
+  - HeatPump
+  - SolarInverter
+  - HomeBattery
+  - GraphQL
+  - OAuth2
+  - Nordic
+description: >-
+  Tibber is a fully-digital Nordic and European retail electricity provider
+  operating in Norway, Sweden, Germany, and the Netherlands. Founded in 2016 by
+  Daniel Lindén and Edgeir Vårdal Aksnes, the company passes Nord Pool / EPEX
+  hourly spot prices through to customers at cost and overlays software-driven
+  optimisation for EV charging, heat pumps, and rooftop solar to shift load to
+  cheap and clean grid hours. Tibber publishes two distinct developer APIs: the
+  long-standing GraphQL endpoint at api.tibber.com/v1-beta/gql for customer,
+  subscription, price, consumption, production, and real-time
+  `liveMeasurement` data streamed from the Tibber Pulse; and the newer OAuth
+  2.0 Data API at data-api.tibber.com that exposes normalised time series for
+  third-party IoT devices (vehicles, chargers, thermostats / heat pumps,
+  inverters, home batteries) linked through the Tibber mobile app.
+created: '2026-05-25'
+modified: '2026-05-25'
+specificationVersion: '0.16'
+type: Index
+position: Consuming
+apis:
+  - aid: tibber:tibber-graphql-api
+    name: Tibber GraphQL API
+    humanURL: https://developer.tibber.com/docs
+    baseURL: https://api.tibber.com/v1-beta/gql
+    tags:
+      - Energy
+      - GraphQL
+      - LiveMeasurement
+      - ElectricityPricing
+      - SmartMeter
+    description: >-
+      Tibber's long-standing GraphQL API. A single HTTPS endpoint serves the
+      `viewer` query (with nested `homes`, `currentSubscription`, `priceInfo`,
+      `consumption`, `production`, and `features`), the `liveMeasurement`
+      websocket subscription that streams sub-second power, voltage, and
+      current readings from a paired Tibber Pulse, and the `sendMeterReading`,
+      `updateHome`, and `sendPushNotification` mutations. Authentication is a
+      personal access token issued at developer.tibber.com.
+    properties:
+      - type: Documentation
+        url: https://developer.tibber.com/docs
+      - type: Documentation
+        url: https://developer.tibber.com/docs/guides/calling-api
+      - type: Documentation
+        url: https://developer.tibber.com/docs/guides/graphql-concepts
+      - type: APIReference
+        url: https://developer.tibber.com/docs/reference
+      - type: Sandbox
+        url: https://developer.tibber.com/explorer
+      - type: Authentication
+        url: https://developer.tibber.com/settings/access-token
+      - type: OpenAPI
+        url: openapi/tibber-graphql-api-openapi.yml
+      - type: JSONSchema
+        url: json-schema/tibber-home-schema.json
+      - type: JSONSchema
+        url: json-schema/tibber-price-schema.json
+      - type: JSONSchema
+        url: json-schema/tibber-consumption-schema.json
+      - type: JSONSchema
+        url: json-schema/tibber-live-measurement-schema.json
+      - type: JSONStructure
+        url: json-structure/tibber-home-structure.json
+      - type: JSONStructure
+        url: json-structure/tibber-price-structure.json
+      - type: JSONStructure
+        url: json-structure/tibber-live-measurement-structure.json
+      - type: Example
+        url: examples/tibber-current-price-example.json
+      - type: Example
+        url: examples/tibber-consumption-example.json
+      - type: Example
+        url: examples/tibber-live-measurement-example.json
+      - type: NaftikoCapability
+        url: capabilities/tibber-graphql-customer.yaml
+  - aid: tibber:tibber-data-api
+    name: Tibber Data API
+    humanURL: https://data-api.tibber.com/docs/
+    baseURL: https://data-api.tibber.com/v1
+    tags:
+      - Energy
+      - REST
+      - OAuth2
+      - IoT
+      - ElectricVehicle
+      - HeatPump
+      - SolarInverter
+      - HomeBattery
+    description: >-
+      Tibber's modern REST API for third-party connected IoT devices. OAuth 2.0
+      Authorization Code Flow with PKCE; scopes gate each device category
+      (`data-api-vehicles-read`, `data-api-chargers-read`,
+      `data-api-thermostats-read`, `data-api-inverters-read`,
+      `data-api-energy-systems-read`). Endpoints list homes, list and inspect
+      devices, and walk paginated immutable device history at quarter-hour,
+      hour, day, or month resolution. Tibber Pulse live streaming, pricing, and
+      proprietary optimisation logic are explicitly out of scope and remain on
+      the legacy GraphQL API.
+    properties:
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/get-started/
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/api-usage/
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/api-usage/rate-limiting/
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/api-usage/retry-backoff/
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/api-usage/troubleshooting/
+      - type: Authentication
+        url: https://data-api.tibber.com/docs/auth/
+      - type: Scopes
+        url: https://data-api.tibber.com/docs/scopes/
+      - type: Sandbox
+        url: https://data-api.tibber.com/playground/
+      - type: ChangeLog
+        url: https://data-api.tibber.com/docs/changelog/
+      - type: FAQ
+        url: https://data-api.tibber.com/docs/further-reading/faq/
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/devices/supported/
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/devices/device-history/
+      - type: Documentation
+        url: https://data-api.tibber.com/docs/managing-clients/
+      - type: Console
+        url: https://data-api.tibber.com/clients/manage/
+      - type: OpenAPI
+        url: openapi/tibber-data-api-openapi.yml
+      - type: JSONSchema
+        url: json-schema/tibber-device-schema.json
+      - type: JSONSchema
+        url: json-schema/tibber-device-history-schema.json
+      - type: JSONStructure
+        url: json-structure/tibber-device-structure.json
+      - type: Example
+        url: examples/tibber-list-homes-example.json
+      - type: Example
+        url: examples/tibber-device-example.json
+      - type: Example
+        url: examples/tibber-device-history-example.json
+      - type: NaftikoCapability
+        url: capabilities/tibber-data-api-homes.yaml
+      - type: NaftikoCapability
+        url: capabilities/tibber-data-api-history.yaml
+common:
+  - type: Portal
+    url: https://tibber.com/en
+  - type: Documentation
+    url: https://developer.tibber.com
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/
+  - type: SignUp
+    url: https://tibber.com/en
+  - type: Store
+    url: https://tibber.com/en/store
+  - type: Pricing
+    url: https://tibber.com/en/store
+  - type: StatusPage
+    url: https://status.tibber.com/
+  - type: Support
+    url: https://support.tibber.com/en/
+  - type: ChangeLog
+    url: https://data-api.tibber.com/docs/changelog/
+  - type: TermsOfService
+    url: https://tibber.com/en/legal-notice
+  - type: PrivacyPolicy
+    url: https://tibber.com/en/terms/privacy-policy
+  - type: GitHubOrganization
+    url: https://github.com/tibber
+  - type: GitHubRepository
+    url: https://github.com/tibber/Tibber.SDK.NET
+    name: Tibber.SDK.NET
+  - type: GitHubRepository
+    url: https://github.com/tibber/com.tibber.athom
+    name: Tibber app for Athom Homey
+  - type: GitHubRepository
+    url: https://github.com/tibber/homevolt-local-api-doc
+    name: Homevolt local API documentation
+  - type: GitHubRepository
+    url: https://github.com/tibber/tibber-httpclient
+    name: tibber-httpclient
+  - type: GitHubRepository
+    url: https://github.com/tibber/tibber-express-utils
+    name: tibber-express-utils
+  - type: GitHubRepository
+    url: https://github.com/tibber/tibber-aws
+    name: tibber-aws
+  - type: SDK
+    url: https://github.com/tibber/Tibber.SDK.NET
+    name: Official C# / .NET SDK
+  - type: SDK
+    url: https://github.com/bisand/tibber-api
+    name: Community Node.js / TypeScript SDK (tibber-api)
+  - type: SDK
+    url: https://github.com/stefanes/PSTibber
+    name: Community PowerShell module (PSTibber)
+  - type: SDK
+    url: https://github.com/mkalen/tibber-graphql-client
+    name: Community Java GraphQL client
+  - type: Plugins
+    url: https://www.home-assistant.io/integrations/tibber/
+    name: Home Assistant Tibber integration
+  - type: Plugins
+    url: https://marketplace.fibaro.com/items/tibber-live
+    name: Fibaro Tibber Live integration
+  - type: Careers
+    url: https://jobs.tibber.com/
+  - type: Forum
+    url: https://www.facebook.com/groups/tibbergebruikers/
+    name: Tibber Gebruikers (Netherlands user group)
+  - type: SpectralRules
+    url: rules/tibber-rules.yml
+  - type: Vocabulary
+    url: vocabulary/tibber-vocabulary.yml
+  - type: JSONLD
+    url: json-ld/tibber-context.jsonld
+  - type: Plans
+    url: plans/tibber-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/tibber-rate-limits.yml
+  - type: FinOps
+    url: finops/tibber-finops.yml
+  - type: Features
+    data:
+      - name: Hourly Spot Pricing Pass-Through
+        description: Customers are billed at the Nord Pool / EPEX hourly spot price plus a fixed monthly fee, with no margin on the energy component.
+      - name: Tibber Pulse Live Measurement
+        description: Optional hardware clipped onto a smart-meter HAN or P1 port that streams ~2 s power, voltage, and current readings into the GraphQL liveMeasurement subscription.
+      - name: GraphQL Customer API
+        description: Single endpoint exposing viewer, homes, currentSubscription, priceInfo, consumption, and production with hourly through annual resolution.
+      - name: OAuth 2.0 Data API
+        description: REST API for third-party IoT device data with PKCE-recommended Authorization Code Flow and category-scoped device access.
+      - name: Smart EV Charging
+        description: Schedules charging into cheap and clean grid hours for connected vehicles and EVSEs.
+      - name: Smart Heat Pump Control
+        description: Optimisation of air-to-air, air-to-water, and ground-source heat pumps to shift load to favourable price windows.
+      - name: Push Notification Mutation
+        description: sendPushNotification GraphQL mutation lets approved integrators trigger notifications inside the Tibber mobile app.
+      - name: Meter Reading Mutation
+        description: sendMeterReading lets customers and integrators submit cumulative meter readings programmatically.
+      - name: Immutable Paginated Device History
+        description: Data API serves cursor-paged device history at quarterHour, hour, day, and month resolutions with documented retention.
+      - name: Per-Category OAuth Scopes
+        description: Devices only surface when the access token carries the matching scope (vehicles, chargers, thermostats, inverters, energy systems).
+  - type: UseCases
+    data:
+      - name: Home Energy Dashboards
+        description: Build personal or third-party dashboards combining hourly prices, hourly consumption, and live Pulse data.
+      - name: EV Charging Schedulers
+        description: Pull tomorrow's prices and EV state-of-charge to schedule charging windows automatically.
+      - name: Heat Pump Demand Response
+        description: Shift heat-pump duty cycles toward CHEAP and VERY_CHEAP price hours.
+      - name: PV Self-Consumption Reporting
+        description: Combine inverter history with home consumption to compute self-consumption and export economics.
+      - name: Aggregator / VPP Participation
+        description: Use device history and Pulse live data to support virtual power plant and demand response aggregation.
+      - name: Home Assistant / Smart Home Integration
+        description: Surface Tibber prices and live consumption inside Home Assistant, Athom Homey, Fibaro, and SmartThings.
+  - type: Integrations
+    data:
+      - name: Home Assistant
+        description: Official Home Assistant Tibber integration consuming the GraphQL API.
+      - name: Athom Homey
+        description: Tibber-maintained Homey app integrating Tibber data into Homey flows.
+      - name: Fibaro
+        description: Tibber Live marketplace plugin for Fibaro Home Center.
+      - name: Tesla
+        description: Vehicle integration for smart charging and state-of-charge reporting via the Data API vehicles scope.
+      - name: Ford
+        description: Ford vehicle pairing surfaced through Data API vehicles scope (per May 2026 changelog).
+      - name: Mill
+        description: Mill thermostat integration enabled in the Data API thermostats scope (2025-11-28 changelog).
+      - name: Huawei
+        description: Solar inverter integration with production analytics in the Data API.
+      - name: SolarEdge
+        description: Solar inverter integration with production analytics in the Data API.
+      - name: Nord Pool
+        description: Day-ahead price data sourced from Nord Pool for NO/SE.
+      - name: EPEX SPOT
+        description: Day-ahead price data sourced from EPEX SPOT for DE-LU/NL.
+  - type: Solutions
+    data:
+      - name: Tibber Pulse IR / HAN / P1
+        description: Hardware product line that brings live consumption to homes whose smart meters lack a customer-readable port.
+      - name: Tibber Marketplace
+        description: Curated marketplace of compatible smart-home and EV hardware sold through tibber.com/en/store.
+      - name: Tibber Grid Services (Sweden)
+        description: Aggregated demand-response and FCR-N participation visible to Tibber Sweden customers.
+sources:
+  - https://tibber.com/en
+  - https://tibber.com/en/about-us
+  - https://developer.tibber.com/
+  - https://data-api.tibber.com/docs/
+  - https://data-api.tibber.com/docs/auth/
+  - https://data-api.tibber.com/docs/scopes/
+  - https://data-api.tibber.com/docs/api-usage/rate-limiting/
+  - https://data-api.tibber.com/docs/devices/supported/
+  - https://data-api.tibber.com/docs/changelog/
+  - https://status.tibber.com/
+  - https://github.com/tibber
+maintainers:
+  - FN: Kin Lane
+    email: info@apievangelist.com
+    X: apievangelist
+    url: https://apievangelist.com

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tibber/main/json-schema/tibber-home-schema.json",
+  "title": "Tibber Home",
+  "description": "Tibber customer home, returned both by the GraphQL `viewer.homes` query and the Data API `GET /v1/homes` endpoint.",
+  "type": "object",
+  "required": ["id"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "timeZone": { "type": "string", "examples": ["Europe/Oslo", "Europe/Stockholm", "Europe/Berlin", "Europe/Amsterdam"] },
+    "nickname": { "type": "string" },
+    "avatar": {
+      "type": "string",
+      "enum": ["APARTMENT", "ROWHOUSE", "FLOORHOUSE1", "FLOORHOUSE2", "FLOORHOUSE3", "COTTAGE", "CASTLE"]
+    },
+    "type": { "type": "string", "enum": ["APARTMENT", "ROWHOUSE", "HOUSE", "COTTAGE"] },
+    "size": { "type": "integer", "minimum": 0, "description": "Living area in square metres." },
+    "numberOfResidents": { "type": "integer", "minimum": 0 },
+    "primaryHeatingSource": {
+      "type": "string",
+      "enum": [
+        "AIR2AIR_HEATPUMP", "AIR2WATER_HEATPUMP", "BOILER", "CENTRAL_HEATING",
+        "DISTRICT", "DISTRICT_HEATING", "ELECTRIC_BOILER", "ELECTRICITY",
+        "FLOOR", "GAS", "GROUND", "OIL", "OTHER", "WASTE"
+      ]
+    },
+    "hasVentilationSystem": { "type": "boolean" },
+    "mainFuseSize": { "type": "integer", "minimum": 0 },
+    "address": { "$ref": "#/$defs/address" },
+    "meteringPointData": { "$ref": "#/$defs/meteringPointData" },
+    "features": {
+      "type": "object",
+      "properties": {
+        "realTimeConsumptionEnabled": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "address": {
+      "type": "object",
+      "properties": {
+        "address1": { "type": "string" },
+        "address2": { "type": "string" },
+        "address3": { "type": "string" },
+        "city": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "country": { "type": "string", "description": "ISO 3166-1 alpha-2 country code." },
+        "latitude": { "type": "string" },
+        "longitude": { "type": "string" }
+      }
+    },
+    "meteringPointData": {
+      "type": "object",
+      "properties": {
+        "consumptionEan": { "type": "string", "description": "Consumption EAN/GSRN metering point identifier." },
+        "productionEan": { "type": "string" },
+        "gridCompany": { "type": "string" },
+        "gridAreaCode": { "type": "string" },
+        "priceAreaCode": { "type": "string", "description": "Nord Pool price area, e.g. NO1, SE3, DE-LU, NL." },
+        "energyTaxType": { "type": "string" },
+        "vatType": { "type": "string" },
+        "estimatedAnnualConsumption": { "type": "integer", "description": "Estimated annual kWh." }
+      }
+    }
+  }
+}

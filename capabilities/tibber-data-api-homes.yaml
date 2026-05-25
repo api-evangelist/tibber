@@ -1,0 +1,103 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Tibber Data API — Homes & Devices
+  description: List a customer's Tibber homes and their linked IoT devices (vehicles, chargers, thermostats, inverters, energy systems) over the Data API.
+  tags:
+    - Tibber
+    - DataAPI
+    - Homes
+    - Devices
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      TIBBER_DATA_ACCESS_TOKEN: TIBBER_DATA_ACCESS_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: tibber-data-homes
+      baseUri: https://data-api.tibber.com
+      description: Tibber Data API REST endpoints for homes and devices.
+      resources:
+        - name: v1-homes
+          path: /v1/homes
+          operations:
+            - name: listHomes
+              method: GET
+              description: List the authenticated user's homes.
+              outputRawFormat: json
+              outputParameters:
+                - name: homes
+                  type: array
+                  value: $.
+        - name: v1-home-devices
+          path: /v1/homes/{homeId}/devices
+          operations:
+            - name: listDevicesForHome
+              method: GET
+              description: List all devices for one home (filtered by granted category scopes).
+              outputRawFormat: json
+              outputParameters:
+                - name: devices
+                  type: array
+                  value: $.
+              inputParameters:
+                - name: homeId
+                  in: path
+                  type: string
+                  required: true
+        - name: v1-device
+          path: /v1/homes/{homeId}/devices/{deviceId}
+          operations:
+            - name: getDevice
+              method: GET
+              description: Get one device's identity, attributes, capabilities, and supported history resolutions.
+              outputRawFormat: json
+              outputParameters:
+                - name: device
+                  type: object
+                  value: $.
+              inputParameters:
+                - name: homeId
+                  in: path
+                  type: string
+                  required: true
+                - name: deviceId
+                  in: path
+                  type: string
+                  required: true
+      authentication:
+        type: apikey
+        key: Authorization
+        value: 'Bearer {{env.TIBBER_DATA_ACCESS_TOKEN}}'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: tibber-data-homes-rest
+      port: 8080
+      description: REST adapter for Tibber Data API homes and devices.
+      resources:
+        - path: /v1/homes
+          name: homes
+          operations:
+            - method: GET
+              name: list
+              call: tibber-data-homes.listHomes
+        - path: /v1/homes/{homeId}/devices
+          name: home-devices
+          operations:
+            - method: GET
+              name: list
+              call: tibber-data-homes.listDevicesForHome
+              with:
+                homeId: rest.path.homeId
+        - path: /v1/homes/{homeId}/devices/{deviceId}
+          name: device
+          operations:
+            - method: GET
+              name: get
+              call: tibber-data-homes.getDevice
+              with:
+                homeId: rest.path.homeId
+                deviceId: rest.path.deviceId

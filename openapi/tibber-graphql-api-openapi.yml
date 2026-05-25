@@ -1,0 +1,275 @@
+openapi: 3.0.3
+info:
+  title: Tibber GraphQL API
+  description: >-
+    Tibber's legacy GraphQL endpoint exposing customer subscription, hourly Nord
+    Pool price information, hourly and daily consumption and production
+    aggregates, real-time `liveMeasurement` data streamed from the Tibber Pulse
+    via WebSocket subscriptions, plus mutations to submit meter readings and
+    send push notifications to the Tibber mobile app. Issued personal access
+    tokens at https://developer.tibber.com/settings/access-token are bearer
+    tokens; new third-party integrations should prefer the Tibber Data API
+    (data-api.tibber.com) which uses OAuth 2.0.
+  version: v1-beta
+  contact:
+    name: Tibber Developer
+    url: https://developer.tibber.com
+  license:
+    name: Tibber Developer Terms
+    url: https://developer.tibber.com
+servers:
+  - url: https://api.tibber.com/v1-beta
+    description: Tibber GraphQL API (production)
+security:
+  - bearerAuth: []
+tags:
+  - name: GraphQL
+    description: Single GraphQL endpoint serving Query, RootMutation, and RootSubscription.
+  - name: Live Measurement
+    description: WebSocket subscription for sub-second power, voltage, and current readings from Tibber Pulse.
+paths:
+  /gql:
+    post:
+      tags:
+        - GraphQL
+      summary: Execute GraphQL Operation
+      operationId: executeGraphQL
+      description: >-
+        Single HTTPS endpoint that accepts every GraphQL query, mutation, and
+        introspection request. The schema exposes the authenticated `viewer`
+        plus their `homes`, hourly `priceInfo`, paginated `consumption` and
+        `production` time series, and the `sendMeterReading`, `updateHome`, and
+        `sendPushNotification` mutations.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+            examples:
+              currentPrice:
+                summary: Current hourly price
+                value:
+                  query: "{ viewer { homes { currentSubscription { priceInfo { current { total energy tax startsAt currency level } } } } } }"
+              consumption:
+                summary: Last 24 hourly consumption nodes
+                value:
+                  query: "{ viewer { homes { consumption(resolution: HOURLY, last: 24) { nodes { from to consumption consumptionUnit cost currency } } } } }"
+      responses:
+        '200':
+          description: GraphQL response payload (data and/or errors).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        '401':
+          description: Missing or invalid bearer token.
+        '429':
+          description: Rate limit exceeded.
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Personal access token issued at https://developer.tibber.com/settings/access-token.
+  schemas:
+    GraphQLRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: GraphQL document (query, mutation, or subscription registration).
+        operationName:
+          type: string
+        variables:
+          type: object
+          additionalProperties: true
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+        errors:
+          type: array
+          items:
+            type: object
+    Viewer:
+      type: object
+      properties:
+        login:
+          type: string
+        userId:
+          type: string
+        name:
+          type: string
+        accountType:
+          type: array
+          items:
+            type: string
+        websocketSubscriptionUrl:
+          type: string
+          description: WebSocket URL clients must connect to for `liveMeasurement` subscriptions.
+        homes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Home'
+    Home:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        timeZone:
+          type: string
+        appNickname:
+          type: string
+        appAvatar:
+          type: string
+          enum: [APARTMENT, ROWHOUSE, FLOORHOUSE1, FLOORHOUSE2, FLOORHOUSE3, COTTAGE, CASTLE]
+        size:
+          type: integer
+        type:
+          type: string
+          enum: [APARTMENT, ROWHOUSE, HOUSE, COTTAGE]
+        numberOfResidents:
+          type: integer
+        primaryHeatingSource:
+          type: string
+          enum: [AIR2AIR_HEATPUMP, AIR2WATER_HEATPUMP, BOILER, CENTRAL_HEATING, DISTRICT, DISTRICT_HEATING, ELECTRIC_BOILER, ELECTRICITY, FLOOR, GAS, GROUND, OIL, OTHER, WASTE]
+        hasVentilationSystem:
+          type: boolean
+        mainFuseSize:
+          type: integer
+        address:
+          $ref: '#/components/schemas/Address'
+        owner:
+          $ref: '#/components/schemas/LegalEntity'
+        meteringPointData:
+          $ref: '#/components/schemas/MeteringPointData'
+        features:
+          type: object
+          properties:
+            realTimeConsumptionEnabled:
+              type: boolean
+    Address:
+      type: object
+      properties:
+        address1: { type: string }
+        address2: { type: string }
+        address3: { type: string }
+        city: { type: string }
+        postalCode: { type: string }
+        country: { type: string }
+        latitude: { type: string }
+        longitude: { type: string }
+    LegalEntity:
+      type: object
+      properties:
+        id: { type: string }
+        firstName: { type: string }
+        middleName: { type: string }
+        lastName: { type: string }
+        name: { type: string }
+        isCompany: { type: boolean }
+        organizationNo: { type: string }
+        language: { type: string }
+        contactInfo:
+          type: object
+          properties:
+            email: { type: string, format: email }
+            mobile: { type: string }
+        address:
+          $ref: '#/components/schemas/Address'
+    MeteringPointData:
+      type: object
+      properties:
+        consumptionEan: { type: string }
+        gridCompany: { type: string }
+        gridAreaCode: { type: string }
+        priceAreaCode: { type: string }
+        productionEan: { type: string }
+        energyTaxType: { type: string }
+        vatType: { type: string }
+        estimatedAnnualConsumption: { type: integer }
+    Price:
+      type: object
+      properties:
+        total:
+          type: number
+          format: float
+        energy:
+          type: number
+          format: float
+        tax:
+          type: number
+          format: float
+        startsAt:
+          type: string
+          format: date-time
+        currency:
+          type: string
+        level:
+          type: string
+          enum: [NORMAL, CHEAP, VERY_CHEAP, EXPENSIVE, VERY_EXPENSIVE]
+    Consumption:
+      type: object
+      properties:
+        from: { type: string, format: date-time }
+        to: { type: string, format: date-time }
+        unitPrice: { type: number, format: float }
+        unitPriceVAT: { type: number, format: float }
+        consumption: { type: number, format: float }
+        consumptionUnit: { type: string }
+        totalCost: { type: number, format: float }
+        unitCost: { type: number, format: float }
+        cost: { type: number, format: float }
+        currency: { type: string }
+    Production:
+      type: object
+      properties:
+        from: { type: string, format: date-time }
+        to: { type: string, format: date-time }
+        unitPrice: { type: number, format: float }
+        unitPriceVAT: { type: number, format: float }
+        production: { type: number, format: float }
+        productionUnit: { type: string }
+        profit: { type: number, format: float }
+        currency: { type: string }
+    LiveMeasurement:
+      type: object
+      description: >-
+        Real-time meter readings streamed via the GraphQL WebSocket subscription
+        URL surfaced on `viewer.websocketSubscriptionUrl`. Pulse devices push
+        approximately every two seconds.
+      properties:
+        timestamp: { type: string, format: date-time }
+        power: { type: number, format: float, description: Instantaneous consumption in W. }
+        lastMeterConsumption: { type: number, format: float }
+        accumulatedConsumption: { type: number, format: float }
+        accumulatedProduction: { type: number, format: float }
+        accumulatedConsumptionLastHour: { type: number, format: float }
+        accumulatedProductionLastHour: { type: number, format: float }
+        accumulatedCost: { type: number, format: float }
+        accumulatedReward: { type: number, format: float }
+        currency: { type: string }
+        minPower: { type: number, format: float }
+        averagePower: { type: number, format: float }
+        maxPower: { type: number, format: float }
+        powerProduction: { type: number, format: float }
+        powerReactive: { type: number, format: float }
+        powerProductionReactive: { type: number, format: float }
+        minPowerProduction: { type: number, format: float }
+        maxPowerProduction: { type: number, format: float }
+        lastMeterProduction: { type: number, format: float }
+        powerFactor: { type: number, format: float }
+        voltagePhase1: { type: number, format: float }
+        voltagePhase2: { type: number, format: float }
+        voltagePhase3: { type: number, format: float }
+        currentL1: { type: number, format: float }
+        currentL2: { type: number, format: float }
+        currentL3: { type: number, format: float }
+        signalStrength: { type: integer }

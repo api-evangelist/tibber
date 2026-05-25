@@ -1,0 +1,82 @@
+name: Tibber Vocabulary
+description: >-
+  Controlled vocabulary covering Tibber's smart-energy retail and IoT device
+  domain across the legacy GraphQL API and the modern Data API.
+url: https://raw.githubusercontent.com/api-evangelist/tibber/main/vocabulary/tibber-vocabulary.yml
+created: '2026-05-25'
+modified: '2026-05-25'
+
+operationalDimensions:
+  - name: Subscription
+    description: A customer's active retail electricity subscription with hourly Nord Pool / EPEX spot pricing.
+    aliases: [contract, plan]
+  - name: Home
+    description: A physical address where Tibber meters electricity and links smart devices.
+    aliases: [household, dwelling]
+  - name: MeteringPoint
+    description: The grid metering point (EAN / GSRN) tied to a home for consumption and production accounting.
+  - name: Price
+    description: Hourly retail price comprising energy, tax, and grid components, classified by relative `level`.
+  - name: Consumption
+    description: Energy consumed in a time bucket (HOURLY, DAILY, WEEKLY, MONTHLY, ANNUAL).
+  - name: Production
+    description: Energy exported to grid in a time bucket, typically from rooftop solar.
+  - name: LiveMeasurement
+    description: Sub-second power, voltage, current, and signal readings from Tibber Pulse over the GraphQL websocket subscription.
+  - name: MeterReading
+    description: Manual or scheduled cumulative meter reading submitted via `sendMeterReading` mutation.
+  - name: Device
+    description: A third-party IoT device (vehicle, charger, thermostat, inverter, energy system) linked through the Tibber mobile app.
+  - name: DeviceHistory
+    description: Paginated time series of device metrics, immutable after creation, served at quarterHour/hour/day/month resolution.
+
+capabilityDimensions:
+  - name: SmartCharging
+    description: Tibber's app-driven EV charging optimisation that shifts load to cheap and clean grid hours.
+  - name: HeatPumpOptimization
+    description: Schedule-shifting and load-balancing logic for air-to-air, air-to-water, and ground-source heat pumps.
+  - name: SolarSelfConsumption
+    description: Production analytics and battery dispatch advice for rooftop PV households.
+  - name: GridBalancing
+    description: Aggregated demand-response participation, including Sweden FCR-N participation Tibber surfaces to customers.
+  - name: PushNotification
+    description: Outbound notifications to the Tibber mobile app via the `sendPushNotification` mutation.
+
+deviceCategories:
+  - name: vehicle
+    description: Connected electric vehicle linked via OEM cloud (Tesla, Ford, Polestar, BMW, etc.).
+    scope: data-api-vehicles-read
+  - name: charger
+    description: Electric vehicle supply equipment (EVSE).
+    scope: data-api-chargers-read
+  - name: thermostat
+    description: Thermostats, heat pumps, and space heaters (e.g., Mill, Nibe, Daikin).
+    scope: data-api-thermostats-read
+  - name: inverter
+    description: Solar PV inverters (Huawei, SolarEdge, Fronius).
+    scope: data-api-inverters-read
+  - name: energySystem
+    description: Home batteries and hybrid solar+storage systems.
+    scope: data-api-energy-systems-read
+
+priceLevels:
+  - VERY_CHEAP
+  - CHEAP
+  - NORMAL
+  - EXPENSIVE
+  - VERY_EXPENSIVE
+
+priceAreas:
+  description: Nord Pool / EPEX day-ahead bidding zones Tibber serves customers in.
+  zones:
+    - { code: NO1, country: NO, name: Oslo }
+    - { code: NO2, country: NO, name: Kristiansand }
+    - { code: NO3, country: NO, name: Trondheim }
+    - { code: NO4, country: NO, name: Tromsø }
+    - { code: NO5, country: NO, name: Bergen }
+    - { code: SE1, country: SE, name: Luleå }
+    - { code: SE2, country: SE, name: Sundsvall }
+    - { code: SE3, country: SE, name: Stockholm }
+    - { code: SE4, country: SE, name: Malmö }
+    - { code: DE-LU, country: DE, name: Germany / Luxembourg }
+    - { code: NL, country: NL, name: Netherlands }

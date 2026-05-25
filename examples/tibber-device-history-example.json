@@ -1,0 +1,14 @@
+{
+  "query": {
+    "effectiveStart": "2026-05-24T00:00:00Z",
+    "effectiveEnd": "2026-05-25T00:00:00Z",
+    "resolution": "hour"
+  },
+  "data": [
+    { "from": "2026-05-24T00:00:00Z", "to": "2026-05-24T01:00:00Z", "metrics": { "energyCharged": 7.42, "stateOfCharge": 48.0 } },
+    { "from": "2026-05-24T01:00:00Z", "to": "2026-05-24T02:00:00Z", "metrics": { "energyCharged": 9.08, "stateOfCharge": 60.1 } },
+    { "from": "2026-05-24T02:00:00Z", "to": "2026-05-24T03:00:00Z", "metrics": { "energyCharged": 0.0,  "stateOfCharge": 60.1 } }
+  ],
+  "next": "https://data-api.tibber.com/v1/homes/9c1c4b0e/devices/tesla:5YJ.../history?resolution=hour&since=2026-05-24T03:00:00Z",
+  "prev": null
+}

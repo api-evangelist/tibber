@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/tibber/main/json-schema/tibber-consumption-schema.json",
+  "title": "Tibber Consumption",
+  "description": "One bucket of historical consumption returned by the GraphQL `home.consumption` connection at HOURLY, DAILY, WEEKLY, MONTHLY, or ANNUAL resolution.",
+  "type": "object",
+  "required": ["from", "to"],
+  "properties": {
+    "from": { "type": "string", "format": "date-time" },
+    "to": { "type": "string", "format": "date-time" },
+    "unitPrice": { "type": "number" },
+    "unitPriceVAT": { "type": "number" },
+    "consumption": { "type": "number", "description": "Energy consumed in the bucket." },
+    "consumptionUnit": { "type": "string", "examples": ["kWh"] },
+    "totalCost": { "type": "number" },
+    "unitCost": { "type": "number" },
+    "cost": { "type": "number" },
+    "currency": { "type": "string" }
+  }
+}

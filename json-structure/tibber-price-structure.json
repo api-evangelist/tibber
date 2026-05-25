@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-structure.org/draft/2024-09/schema",
+  "title": "Tibber Hourly Price",
+  "type": "record",
+  "name": "TibberPrice",
+  "fields": [
+    { "name": "startsAt", "type": "timestamp" },
+    { "name": "total", "type": "double" },
+    { "name": "energy", "type": "double" },
+    { "name": "tax", "type": "double" },
+    { "name": "currency", "type": "string" },
+    { "name": "level", "type": "enum", "symbols": ["NORMAL", "CHEAP", "VERY_CHEAP", "EXPENSIVE", "VERY_EXPENSIVE"] }
+  ]
+}

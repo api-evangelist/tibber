@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-structure.org/draft/2024-09/schema",
+  "title": "Tibber Data API Device",
+  "type": "record",
+  "name": "TibberDevice",
+  "fields": [
+    { "name": "id", "type": "string" },
+    { "name": "category", "type": "enum", "symbols": ["vehicle", "charger", "thermostat", "inverter", "energySystem"] },
+    { "name": "vendor", "type": "string", "optional": true },
+    { "name": "model", "type": "string", "optional": true },
+    { "name": "supportedHistory", "type": "array", "items": { "type": "enum", "symbols": ["quarterHour", "hour", "day", "month"] } },
+    { "name": "maxRetentionDays", "type": "int", "optional": true }
+  ]
+}

@@ -1,0 +1,60 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: Tibber GraphQL API — Customer Energy
+  description: Read the authenticated Tibber customer's viewer profile, homes, hourly Nord Pool spot prices, and historical consumption/production via the legacy GraphQL endpoint.
+  tags:
+    - Tibber
+    - Energy
+    - GraphQL
+    - SmartMeter
+  created: '2026-05-25'
+  modified: '2026-05-25'
+binds:
+  - namespace: env
+    keys:
+      TIBBER_ACCESS_TOKEN: TIBBER_ACCESS_TOKEN
+capability:
+  consumes:
+    - type: http
+      namespace: tibber-graphql
+      baseUri: https://api.tibber.com
+      description: Tibber GraphQL endpoint for customer, subscription, price, and consumption queries.
+      resources:
+        - name: v1-beta-gql
+          path: /v1-beta/gql
+          operations:
+            - name: queryViewerHomes
+              method: POST
+              description: Tibber GraphQL Query — viewer/homes/currentSubscription/priceInfo/consumption.
+              outputRawFormat: json
+              outputParameters:
+                - name: data
+                  type: object
+                  value: $.data
+              inputParameters:
+                - name: body
+                  in: body
+                  type: object
+                  description: GraphQL request body with `query`, optional `operationName`, and `variables`.
+                  required: true
+      authentication:
+        type: apikey
+        key: Authorization
+        value: 'Bearer {{env.TIBBER_ACCESS_TOKEN}}'
+        placement: header
+  exposes:
+    - type: rest
+      namespace: tibber-graphql-rest
+      port: 8080
+      description: REST adapter exposing the single Tibber GraphQL POST as `/v1/graphql`.
+      resources:
+        - path: /v1/graphql
+          name: graphql
+          description: REST surface for the Tibber GraphQL endpoint.
+          operations:
+            - method: POST
+              name: query
+              description: Forward a GraphQL document to Tibber.
+              call: tibber-graphql.queryViewerHomes
+              with:
+                body: rest.body

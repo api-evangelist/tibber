@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-structure.org/draft/2024-09/schema",
+  "title": "Tibber Home",
+  "description": "Round-trip JSON Structure mirror of the Home schema used by both the GraphQL API and Data API.",
+  "type": "record",
+  "name": "TibberHome",
+  "fields": [
+    { "name": "id", "type": "string", "description": "Home UUID." },
+    { "name": "timeZone", "type": "string" },
+    { "name": "type", "type": "enum", "symbols": ["APARTMENT", "ROWHOUSE", "HOUSE", "COTTAGE"] },
+    { "name": "size", "type": "int", "optional": true },
+    { "name": "primaryHeatingSource", "type": "string", "optional": true },
+    { "name": "country", "type": "string", "description": "ISO 3166-1 alpha-2 country code (NO, SE, DE, NL)." },
+    { "name": "priceAreaCode", "type": "string", "optional": true }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "data": {
+    "viewer": {
+      "homes": [
+        {
+          "currentSubscription": {
+            "priceInfo": {
+              "current": {
+                "total": 1.2418,
+                "energy": 0.7843,
+                "tax": 0.4575,
+                "startsAt": "2026-05-25T14:00:00+02:00",
+                "currency": "NOK",
+                "level": "CHEAP"
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

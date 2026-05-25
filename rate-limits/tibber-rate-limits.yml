@@ -1,0 +1,61 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Tibber
+providerId: tibber
+created: '2026-05-25'
+modified: '2026-05-25'
+reconciled: false
+tags:
+  - Energy
+  - Rate Limiting
+  - OAuth
+description: >-
+  Tibber publishes rate-limit guidance but not specific per-token or per-client
+  numeric ceilings. Both the legacy GraphQL API and the modern Data API are
+  positioned as rate-limited services; clients must implement retry with
+  exponential backoff plus jitter, and respect the `Retry-After` header.
+sources:
+  - https://data-api.tibber.com/docs/api-usage/rate-limiting/
+  - https://data-api.tibber.com/docs/api-usage/retry-backoff/
+  - https://developer.tibber.com/docs/guides/calling-api
+headers:
+  retryAfter: retry-after
+responseCodes:
+  throttled: 429
+  serverBusy: 503
+algorithm: undocumented
+limits:
+  - api: tibber-graphql-api
+    scope: per personal access token
+    notes: >-
+      Rate limits are enforced but not numerically disclosed. Excessive polling
+      of `liveMeasurement` from a single token results in disconnection; use the
+      websocket subscription rather than repeatedly polling the query API.
+  - api: tibber-data-api
+    scope: per OAuth client + per access token + per endpoint
+    notes: >-
+      Tibber documents 429 throttling with `Retry-After` plus 5xx infrastructure
+      retry windows. Treat the API as rate-limited even when 429s are rare; if
+      observed latency climbs, proactively reduce poll frequency.
+retryGuidance:
+  retryOn:
+    - 429
+    - 500
+    - 502
+    - 503
+  doNotRetryOn:
+    - 400
+    - 401
+    - 403
+    - 404
+  strategy: full-jitter exponential backoff capped at ~5 attempts
+  retryAfterHonored: true
+  jitterMs: 0-250
+liveMeasurement:
+  recommendedFrequencySeconds: 2
+  notes: Tibber Pulse pushes ~every 2 s; consumers should treat the websocket as the source of truth and not poll the GraphQL query layer.
+deviceHistoryPagination:
+  resolutions: [quarterHour, hour, day, month]
+  retentionDays: device-category-dependent
+  cursor: follow next/prev URLs; arbitrary page sizes are not supported

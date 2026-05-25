@@ -1,0 +1,14 @@
+{
+  "id": "tesla:5YJSA1E26MF1234567",
+  "category": "vehicle",
+  "vendor": "Tesla",
+  "model": "Model Y Long Range",
+  "attributes": {
+    "vin": "5YJSA1E26MF1234567",
+    "batteryCapacityKwh": 75,
+    "softwareVersion": "2026.16.4"
+  },
+  "capabilities": ["history.energyCharged", "history.stateOfCharge"],
+  "supportedHistory": ["hour", "day", "month"],
+  "maxRetentionDays": 365
+}

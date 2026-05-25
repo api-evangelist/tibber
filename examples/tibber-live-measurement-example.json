@@ -1,0 +1,26 @@
+{
+  "data": {
+    "liveMeasurement": {
+      "timestamp": "2026-05-25T14:32:08.412+02:00",
+      "power": 1843.0,
+      "lastMeterConsumption": 18452.31,
+      "accumulatedConsumption": 6.124,
+      "accumulatedProduction": 0.0,
+      "accumulatedConsumptionLastHour": 1.812,
+      "accumulatedProductionLastHour": 0.0,
+      "accumulatedCost": 8.34,
+      "accumulatedReward": null,
+      "currency": "NOK",
+      "minPower": 412.0,
+      "averagePower": 921.5,
+      "maxPower": 4218.0,
+      "voltagePhase1": 233.1,
+      "voltagePhase2": 232.8,
+      "voltagePhase3": 233.4,
+      "currentL1": 2.71,
+      "currentL2": 1.94,
+      "currentL3": 3.12,
+      "signalStrength": -67
+    }
+  }
+}
