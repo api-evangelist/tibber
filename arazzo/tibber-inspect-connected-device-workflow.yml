@@ -1,0 +1,155 @@
+arazzo: 1.0.1
+info:
+  title: Tibber Inspect Connected Device
+  summary: List a home's connected devices and branch on the device category to read full detail for a vehicle, charger, or other linked device.
+  description: >-
+    Resolves a home, enumerates the IoT devices linked to it, and then branches
+    on the category of the first device returned so vehicles and EV chargers are
+    inspected on their own paths while everything else falls through to a
+    generic device read. The detail read returns the device's attributes,
+    capabilities, and supported history resolutions. Every step spells out its
+    request inline so the flow can be read and executed without opening the
+    underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: tibberDataApi
+  url: ../openapi/tibber-data-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: inspect-connected-device
+  summary: Discover a home's devices and read one device in full, branching on its category.
+  description: >-
+    Lists homes, lists the devices for the selected home, branches on the first
+    device's category, and reads that device to surface its attributes,
+    capabilities, and supported history resolutions.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    properties:
+      accessToken:
+        type: string
+        description: OAuth 2.0 bearer access token carrying the required Data API read scopes.
+  steps:
+  - stepId: listHomes
+    description: List the user's accessible homes and capture the first home id.
+    operationId: listHomes
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      homeId: $response.body#/0/id
+  - stepId: listDevices
+    description: >-
+      List the linked devices for the selected home and capture the first
+      device id and its category for branching.
+    operationId: listDevicesForHome
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: homeId
+      in: path
+      value: $steps.listHomes.outputs.homeId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deviceId: $response.body#/0/id
+      category: $response.body#/0/category
+    onSuccess:
+    - name: isVehicle
+      type: goto
+      stepId: getVehicle
+      criteria:
+      - context: $response.body
+        condition: $[0].category == "vehicle"
+        type: jsonpath
+    - name: isCharger
+      type: goto
+      stepId: getCharger
+      criteria:
+      - context: $response.body
+        condition: $[0].category == "charger"
+        type: jsonpath
+    - name: otherDevice
+      type: goto
+      stepId: getOther
+      criteria:
+      - context: $response.body
+        condition: $[0].category != "vehicle" && $[0].category != "charger"
+        type: jsonpath
+  - stepId: getVehicle
+    description: Read a connected electric vehicle in full.
+    operationId: getDevice
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: homeId
+      in: path
+      value: $steps.listHomes.outputs.homeId
+    - name: deviceId
+      in: path
+      value: $steps.listDevices.outputs.deviceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      device: $response.body
+      capabilities: $response.body#/capabilities
+      supportedHistory: $response.body#/supportedHistory
+    onSuccess:
+    - name: done
+      type: end
+  - stepId: getCharger
+    description: Read an EV charger or EVSE device in full.
+    operationId: getDevice
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: homeId
+      in: path
+      value: $steps.listHomes.outputs.homeId
+    - name: deviceId
+      in: path
+      value: $steps.listDevices.outputs.deviceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      device: $response.body
+      capabilities: $response.body#/capabilities
+      supportedHistory: $response.body#/supportedHistory
+    onSuccess:
+    - name: done
+      type: end
+  - stepId: getOther
+    description: >-
+      Read any other linked device category (thermostat, inverter, or energy
+      system) in full.
+    operationId: getDevice
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: homeId
+      in: path
+      value: $steps.listHomes.outputs.homeId
+    - name: deviceId
+      in: path
+      value: $steps.listDevices.outputs.deviceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      device: $response.body
+      capabilities: $response.body#/capabilities
+      supportedHistory: $response.body#/supportedHistory
+  outputs:
+    homeId: $steps.listHomes.outputs.homeId
+    deviceId: $steps.listDevices.outputs.deviceId
+    category: $steps.listDevices.outputs.category
+    vehicle: $steps.getVehicle.outputs.device
+    charger: $steps.getCharger.outputs.device
+    otherDevice: $steps.getOther.outputs.device

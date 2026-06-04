@@ -1,0 +1,100 @@
+arazzo: 1.0.1
+info:
+  title: Tibber Price Alert Push
+  summary: Read the current price level over GraphQL, branch on whether power is cheap, and push a Tibber app notification when it is.
+  description: >-
+    Two chained GraphQL operations against Tibber's legacy /gql endpoint that
+    turn the current price level into a mobile push. The first query reads the
+    current hourly price and its level classification; the flow then branches on
+    the level so that only a CHEAP or VERY_CHEAP hour triggers the
+    sendPushNotification mutation, while normal or expensive hours end quietly.
+    Because the GraphQL API exposes a single POST operation, every step reuses
+    the executeGraphQL operation with a distinct documented payload. Each step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: tibberGraphqlApi
+  url: ../openapi/tibber-graphql-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: price-alert-push
+  summary: Push a Tibber app notification when the current price level is cheap.
+  description: >-
+    Reads the current price level for the viewer's home, branches on whether
+    the level is CHEAP or VERY_CHEAP, and on the cheap path sends a push
+    notification to the Tibber mobile app via the sendPushNotification mutation.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - title
+    - message
+    properties:
+      accessToken:
+        type: string
+        description: Tibber personal access token (bearer) issued at developer.tibber.com.
+      title:
+        type: string
+        description: Title of the push notification sent to the Tibber app.
+      message:
+        type: string
+        description: Body of the push notification sent to the Tibber app.
+  steps:
+  - stepId: readPriceLevel
+    description: >-
+      Read the current hourly price and its level classification for the
+      viewer's home, capturing the level for branching.
+    operationId: executeGraphQL
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        query: "{ viewer { homes { currentSubscription { priceInfo { current { total startsAt level } } } } } }"
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      level: $response.body#/data/viewer/homes/0/currentSubscription/priceInfo/current/level
+      total: $response.body#/data/viewer/homes/0/currentSubscription/priceInfo/current/total
+    onSuccess:
+    - name: priceIsCheap
+      type: goto
+      stepId: sendPush
+      criteria:
+      - context: $response.body
+        condition: $.data.viewer.homes[0].currentSubscription.priceInfo.current.level == "CHEAP" || $.data.viewer.homes[0].currentSubscription.priceInfo.current.level == "VERY_CHEAP"
+        type: jsonpath
+    - name: priceNotCheap
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.data.viewer.homes[0].currentSubscription.priceInfo.current.level != "CHEAP" && $.data.viewer.homes[0].currentSubscription.priceInfo.current.level != "VERY_CHEAP"
+        type: jsonpath
+  - stepId: sendPush
+    description: >-
+      Send a push notification to the Tibber mobile app announcing the cheap
+      price window using the sendPushNotification mutation.
+    operationId: executeGraphQL
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        query: "mutation SendPush($title: String!, $message: String!) { sendPushNotification(input: { title: $title, message: $message }) { successful pushedToNumberOfDevices } }"
+        variables:
+          title: $inputs.title
+          message: $inputs.message
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      successful: $response.body#/data/sendPushNotification/successful
+      pushedToNumberOfDevices: $response.body#/data/sendPushNotification/pushedToNumberOfDevices
+  outputs:
+    level: $steps.readPriceLevel.outputs.level
+    successful: $steps.sendPush.outputs.successful
+    pushedToNumberOfDevices: $steps.sendPush.outputs.pushedToNumberOfDevices

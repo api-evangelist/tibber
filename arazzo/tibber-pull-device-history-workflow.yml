@@ -1,0 +1,134 @@
+arazzo: 1.0.1
+info:
+  title: Tibber Pull Device History
+  summary: Discover a home, find one of its connected devices, confirm the resolution it supports, then pull a page of historical telemetry.
+  description: >-
+    Walks the full Tibber Data API discovery path for a single connected IoT
+    device. The workflow lists the homes the OAuth token can see, lists the
+    devices linked to the chosen home, reads one device to confirm which
+    history resolutions it actually supports, and finally pulls a bounded page
+    of immutable historical time series at the requested resolution. Every step
+    spells out its request inline so the flow can be read and executed without
+    opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: tibberDataApi
+  url: ../openapi/tibber-data-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: pull-device-history
+  summary: Resolve a home and device, then retrieve a page of device history at a supported resolution.
+  description: >-
+    Lists homes, lists devices for the selected home, reads the chosen device
+    to confirm it supports the requested resolution, and returns a page of its
+    historical telemetry bounded by the supplied since/until window.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - resolution
+    properties:
+      accessToken:
+        type: string
+        description: OAuth 2.0 bearer access token carrying the required Data API read scopes.
+      resolution:
+        type: string
+        description: History resolution to request.
+        enum:
+        - quarterHour
+        - hour
+        - day
+        - month
+      since:
+        type: string
+        description: Inclusive lower bound (date-time) for forward pagination.
+      until:
+        type: string
+        description: Inclusive upper bound (date-time) for backward pagination.
+  steps:
+  - stepId: listHomes
+    description: >-
+      List the homes the authenticated user has granted this client access to,
+      and capture the first home id to operate on.
+    operationId: listHomes
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      homeId: $response.body#/0/id
+  - stepId: listDevices
+    description: >-
+      List every linked device in the selected home and capture the first
+      device id to inspect.
+    operationId: listDevicesForHome
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: homeId
+      in: path
+      value: $steps.listHomes.outputs.homeId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      deviceId: $response.body#/0/id
+      category: $response.body#/0/category
+  - stepId: getDevice
+    description: >-
+      Read the device to confirm its identity, capabilities, and which history
+      resolutions it supports before requesting telemetry.
+    operationId: getDevice
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: homeId
+      in: path
+      value: $steps.listHomes.outputs.homeId
+    - name: deviceId
+      in: path
+      value: $steps.listDevices.outputs.deviceId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      supportedHistory: $response.body#/supportedHistory
+      maxRetentionDays: $response.body#/maxRetentionDays
+  - stepId: getHistory
+    description: >-
+      Pull a page of historical telemetry for the device at the requested
+      resolution, bounded by the optional since/until window.
+    operationId: getDeviceHistory
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: homeId
+      in: path
+      value: $steps.listHomes.outputs.homeId
+    - name: deviceId
+      in: path
+      value: $steps.listDevices.outputs.deviceId
+    - name: resolution
+      in: query
+      value: $inputs.resolution
+    - name: since
+      in: query
+      value: $inputs.since
+    - name: until
+      in: query
+      value: $inputs.until
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      points: $response.body#/data
+      next: $response.body#/next
+      prev: $response.body#/prev
+  outputs:
+    homeId: $steps.listHomes.outputs.homeId
+    deviceId: $steps.listDevices.outputs.deviceId
+    supportedHistory: $steps.getDevice.outputs.supportedHistory
+    points: $steps.getHistory.outputs.points
+    next: $steps.getHistory.outputs.next

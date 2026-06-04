@@ -1,0 +1,74 @@
+arazzo: 1.0.1
+info:
+  title: Tibber Current Price By Home
+  summary: Discover the viewer's homes over GraphQL, then fetch the current hourly Nord Pool price and price level for the chosen home.
+  description: >-
+    Two chained GraphQL operations against Tibber's legacy /gql endpoint. The
+    first resolves the authenticated viewer and the list of homes, capturing a
+    home id; the second requests the current hourly price node for that home,
+    returning the total, energy, and tax components together with the price
+    level classification. Because the GraphQL API exposes a single POST
+    operation, every step reuses the executeGraphQL operation with a distinct
+    documented query payload. Each step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: tibberGraphqlApi
+  url: ../openapi/tibber-graphql-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: current-price-by-home
+  summary: Resolve a home and read its current hourly price and price level.
+  description: >-
+    Runs a viewer/homes discovery query to capture a home id, then runs a
+    currentSubscription priceInfo query to return the current price components
+    and level for that home.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    properties:
+      accessToken:
+        type: string
+        description: Tibber personal access token (bearer) issued at developer.tibber.com.
+  steps:
+  - stepId: discoverHomes
+    description: >-
+      Resolve the authenticated viewer and the list of homes, capturing the
+      first home id for the follow-up price query.
+    operationId: executeGraphQL
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        query: "{ viewer { homes { id appNickname } } }"
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      homeId: $response.body#/data/viewer/homes/0/id
+  - stepId: getCurrentPrice
+    description: >-
+      Read the current hourly price node and price level from the viewer's
+      current subscription.
+    operationId: executeGraphQL
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        query: "{ viewer { homes { currentSubscription { priceInfo { current { total energy tax startsAt currency level } } } } } }"
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      current: $response.body#/data/viewer/homes/0/currentSubscription/priceInfo/current
+      level: $response.body#/data/viewer/homes/0/currentSubscription/priceInfo/current/level
+  outputs:
+    homeId: $steps.discoverHomes.outputs.homeId
+    current: $steps.getCurrentPrice.outputs.current
+    level: $steps.getCurrentPrice.outputs.level

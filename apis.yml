@@ -162,6 +162,33 @@ apis:
       - type: NaftikoCapability
         url: capabilities/tibber-data-api-history.yaml
 common:
+  - type: ArazzoWorkflows
+    url: arazzo/
+    workflows:
+    - url: arazzo/tibber-consumption-report-workflow.yml
+      name: Tibber Consumption Report
+      summary: Discover the viewer's homes over GraphQL, then pull the most recent hourly consumption nodes with cost for the chosen home.
+    - url: arazzo/tibber-current-price-by-home-workflow.yml
+      name: Tibber Current Price By Home
+      summary: Discover the viewer's homes over GraphQL, then fetch the current hourly Nord Pool price and price level for the chosen home.
+    - url: arazzo/tibber-inspect-connected-device-workflow.yml
+      name: Tibber Inspect Connected Device
+      summary: List a home's connected devices and branch on the device category to read full detail for a vehicle, charger, or other linked device.
+    - url: arazzo/tibber-price-alert-push-workflow.yml
+      name: Tibber Price Alert Push
+      summary: Read the current price level over GraphQL, branch on whether power is cheap, and push a Tibber app notification when it is.
+    - url: arazzo/tibber-production-report-workflow.yml
+      name: Tibber Production Report
+      summary: Discover the viewer's homes over GraphQL, then pull the most recent hourly production nodes with profit for the chosen home.
+    - url: arazzo/tibber-pull-device-history-workflow.yml
+      name: Tibber Pull Device History
+      summary: Discover a home, find one of its connected devices, confirm the resolution it supports, then pull a page of historical telemetry.
+    - url: arazzo/tibber-realtime-power-readiness-workflow.yml
+      name: Tibber Real-Time Power Readiness
+      summary: Resolve the WebSocket subscription URL and check whether a home has Tibber Pulse real-time consumption enabled before opening a liveMeasurement stream.
+    - url: arazzo/tibber-submit-meter-reading-workflow.yml
+      name: Tibber Submit Meter Reading
+      summary: Discover the viewer's home over GraphQL, then submit a manual meter reading for that home with the sendMeterReading mutation.
   - type: Portal
     url: https://tibber.com/en
   - type: Documentation

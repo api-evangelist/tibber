@@ -1,0 +1,72 @@
+arazzo: 1.0.1
+info:
+  title: Tibber Production Report
+  summary: Discover the viewer's homes over GraphQL, then pull the most recent hourly production nodes with profit for the chosen home.
+  description: >-
+    Two chained GraphQL operations against Tibber's legacy /gql endpoint. The
+    first resolves the authenticated viewer and the list of homes, capturing a
+    home id; the second pulls the most recent hourly production time series for
+    the viewer, returning per-node production, unit, profit, and currency for
+    homes with solar or other generation. Because the GraphQL API exposes a
+    single POST operation, every step reuses the executeGraphQL operation with a
+    distinct documented query payload. Each step spells out its request inline
+    so the flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: tibberGraphqlApi
+  url: ../openapi/tibber-graphql-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: production-report
+  summary: Resolve a home and pull its most recent hourly production nodes with profit.
+  description: >-
+    Runs a viewer/homes discovery query to capture a home id, then runs an
+    hourly production query to return the most recent production nodes, each
+    with production, unit, profit, and currency.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    properties:
+      accessToken:
+        type: string
+        description: Tibber personal access token (bearer) issued at developer.tibber.com.
+  steps:
+  - stepId: discoverHomes
+    description: >-
+      Resolve the authenticated viewer and the list of homes, capturing the
+      first home id for context.
+    operationId: executeGraphQL
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        query: "{ viewer { homes { id appNickname } } }"
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      homeId: $response.body#/data/viewer/homes/0/id
+  - stepId: getProduction
+    description: >-
+      Pull the most recent hourly production nodes for the viewer's home,
+      including production, unit, profit, and currency.
+    operationId: executeGraphQL
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        query: "{ viewer { homes { production(resolution: HOURLY, last: 24) { nodes { from to production productionUnit profit currency } } } } }"
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      nodes: $response.body#/data/viewer/homes/0/production/nodes
+  outputs:
+    homeId: $steps.discoverHomes.outputs.homeId
+    nodes: $steps.getProduction.outputs.nodes

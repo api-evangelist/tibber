@@ -1,0 +1,78 @@
+arazzo: 1.0.1
+info:
+  title: Tibber Submit Meter Reading
+  summary: Discover the viewer's home over GraphQL, then submit a manual meter reading for that home with the sendMeterReading mutation.
+  description: >-
+    Two chained GraphQL operations against Tibber's legacy /gql endpoint. The
+    first resolves the authenticated viewer and the list of homes, capturing a
+    home id; the second submits a manual meter reading for that home using the
+    sendMeterReading mutation with the home id and the reading value supplied as
+    GraphQL variables. Because the GraphQL API exposes a single POST operation,
+    every step reuses the executeGraphQL operation with a distinct documented
+    payload. Each step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: tibberGraphqlApi
+  url: ../openapi/tibber-graphql-api-openapi.yml
+  type: openapi
+workflows:
+- workflowId: submit-meter-reading
+  summary: Resolve a home and submit a manual meter reading for it.
+  description: >-
+    Runs a viewer/homes discovery query to capture a home id, then runs the
+    sendMeterReading mutation to register a manual reading value against that
+    home.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - reading
+    properties:
+      accessToken:
+        type: string
+        description: Tibber personal access token (bearer) issued at developer.tibber.com.
+      reading:
+        type: integer
+        description: The meter reading value to register for the home.
+  steps:
+  - stepId: discoverHomes
+    description: >-
+      Resolve the authenticated viewer and the list of homes, capturing the
+      first home id to register the reading against.
+    operationId: executeGraphQL
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        query: "{ viewer { homes { id appNickname } } }"
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      homeId: $response.body#/data/viewer/homes/0/id
+  - stepId: sendReading
+    description: >-
+      Submit the manual meter reading for the resolved home using the
+      sendMeterReading mutation, passing the home id and reading as variables.
+    operationId: executeGraphQL
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        query: "mutation SendMeterReading($homeId: ID!, $reading: Int!) { sendMeterReading(input: { homeId: $homeId, reading: $reading }) { reading } }"
+        variables:
+          homeId: $steps.discoverHomes.outputs.homeId
+          reading: $inputs.reading
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      result: $response.body#/data/sendMeterReading
+  outputs:
+    homeId: $steps.discoverHomes.outputs.homeId
+    result: $steps.sendReading.outputs.result
