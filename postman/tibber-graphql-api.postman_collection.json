@@ -1,0 +1,234 @@
+{
+  "info": {
+    "_postman_id": "93c24fcc-3b91-40b1-8bbb-fcbc3f6dbd3d",
+    "name": "Tibber GraphQL API",
+    "description": "Tibber's legacy GraphQL endpoint exposing customer subscription, hourly Nord Pool price information, hourly and daily consumption and production aggregates, real-time `liveMeasurement` data streamed from the Tibber Pulse via WebSocket subscriptions, plus mutations to submit meter readings and send push notifications to the Tibber mobile app. Issued personal access tokens at https://developer.tibber.com/settings/access-token are bearer tokens; new third-party integrations should prefer the Tibber Data API (data-api.tibber.com) which uses OAuth 2.0.\n\nContact Support:\n Name: Tibber Developer",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T15:19:15.000Z",
+    "updatedAt": "2026-06-05T15:19:15.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-93c24fcc-3b91-40b1-8bbb-fcbc3f6dbd3d"
+  },
+  "item": [
+    {
+      "name": "gql",
+      "item": [
+        {
+          "name": "Execute GraphQL Operation",
+          "id": "79104e4d-8b5a-428a-8b80-27419c66c140",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"operationName\": \"<string>\",\n  \"variables\": {\n    \"deserunt_9\": -26229487.9317348,\n    \"in_2\": -22792946,\n    \"velit_cac\": -93806510\n  }\n}",
+              "options": {
+                "raw": {
+                  "headerFamily": "json",
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/gql",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "gql"
+              ]
+            },
+            "description": "Single HTTPS endpoint that accepts every GraphQL query, mutation, and introspection request. The schema exposes the authenticated `viewer` plus their `homes`, hourly `priceInfo`, paginated `consumption` and `production` time series, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations."
+          },
+          "response": [
+            {
+              "id": "2fee5696-93ac-4736-ac37-74eba23062ac",
+              "name": "GraphQL response payload (data and/or errors).",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"operationName\": \"<string>\",\n  \"variables\": {\n    \"deserunt_9\": -26229487.9317348,\n    \"in_2\": -22792946,\n    \"velit_cac\": -93806510\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n  \"data\": {\n    \"do_9e\": 13814529.614647463\n  }\n}",
+              "createdAt": "2026-06-05T15:19:16.000Z",
+              "updatedAt": "2026-06-05T15:19:16.000Z",
+              "uid": "35240-2fee5696-93ac-4736-ac37-74eba23062ac"
+            },
+            {
+              "id": "264a257b-11d6-4a62-b9a2-75776e93b5db",
+              "name": "Missing or invalid bearer token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"operationName\": \"<string>\",\n  \"variables\": {\n    \"deserunt_9\": -26229487.9317348,\n    \"in_2\": -22792946,\n    \"velit_cac\": -93806510\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-06-05T15:19:16.000Z",
+              "updatedAt": "2026-06-05T15:19:16.000Z",
+              "uid": "35240-264a257b-11d6-4a62-b9a2-75776e93b5db"
+            },
+            {
+              "id": "bddd48d8-b2fd-47f4-a1da-8a92e6aab1ea",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": "Added as a part of security scheme: bearer",
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"<string>\",\n  \"operationName\": \"<string>\",\n  \"variables\": {\n    \"deserunt_9\": -26229487.9317348,\n    \"in_2\": -22792946,\n    \"velit_cac\": -93806510\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/gql",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "gql"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "text",
+              "header": [],
+              "cookie": [],
+              "responseTime": null,
+              "body": null,
+              "createdAt": "2026-06-05T15:19:16.000Z",
+              "updatedAt": "2026-06-05T15:19:16.000Z",
+              "uid": "35240-bddd48d8-b2fd-47f4-a1da-8a92e6aab1ea"
+            }
+          ],
+          "createdAt": "2026-06-05T15:19:16.000Z",
+          "updatedAt": "2026-06-05T15:19:16.000Z",
+          "uid": "35240-79104e4d-8b5a-428a-8b80-27419c66c140"
+        }
+      ],
+      "id": "4e626b08-f31f-4a6e-a96c-de98cc310a21",
+      "createdAt": "2026-06-05T15:19:16.000Z",
+      "updatedAt": "2026-06-05T15:19:16.000Z",
+      "uid": "35240-4e626b08-f31f-4a6e-a96c-de98cc310a21"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.tibber.com/v1-beta"
+    }
+  ]
+}

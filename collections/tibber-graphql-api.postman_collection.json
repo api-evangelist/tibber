@@ -1,0 +1,244 @@
+{
+  "item": [
+    {
+      "id": "88404377-c3de-4e17-85eb-629fac495dbc",
+      "name": "GraphQL",
+      "description": {
+        "content": "Single GraphQL endpoint serving Query, RootMutation, and RootSubscription.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "21541900-0cb1-4bab-a89c-78b1563a7dc5",
+          "name": "Execute GraphQL Operation",
+          "request": {
+            "name": "Execute GraphQL Operation",
+            "description": {
+              "content": "Single HTTPS endpoint that accepts every GraphQL query, mutation, and introspection request. The schema exposes the authenticated `viewer` plus their `homes`, hourly `priceInfo`, paginated `consumption` and `production` time series, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "gql"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"<string>\",\n  \"operationName\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"string\",\n    \"key_1\": 7784,\n    \"key_2\": \"string\",\n    \"key_3\": true,\n    \"key_4\": 4519\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ab14e8a5-2ae5-4c5d-8713-bc19eef4d12f",
+              "name": "GraphQL response payload (data and/or errors).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "gql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"{ viewer { homes { currentSubscription { priceInfo { current { total energy tax startsAt currency level } } } } } }\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"key_0\": 5420,\n    \"key_1\": \"string\",\n    \"key_2\": false\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bcd7887b-bac4-4910-bf31-40c839389aa3",
+              "name": "Missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "gql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"{ viewer { homes { currentSubscription { priceInfo { current { total energy tax startsAt currency level } } } } } }\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "1a068874-ce1a-4cd1-8f25-2df60d81f4a5",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "gql"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"query\": \"{ viewer { homes { currentSubscription { priceInfo { current { total energy tax startsAt currency level } } } } } }\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    },
+    {
+      "id": "79a9f112-5658-4380-b110-7f8bce8ad0b7",
+      "name": "Live Measurement",
+      "description": {
+        "content": "WebSocket subscription for sub-second power, voltage, and current readings from Tibber Pulse.",
+        "type": "text/plain"
+      },
+      "item": [],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tibber.com/v1-beta",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "87c47119-e5fe-4b73-a744-eadea7efa642",
+    "name": "Tibber GraphQL API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Tibber's legacy GraphQL endpoint exposing customer subscription, hourly Nord Pool price information, hourly and daily consumption and production aggregates, real-time `liveMeasurement` data streamed from the Tibber Pulse via WebSocket subscriptions, plus mutations to submit meter readings and send push notifications to the Tibber mobile app. Issued personal access tokens at https://developer.tibber.com/settings/access-token are bearer tokens; new third-party integrations should prefer the Tibber Data API (data-api.tibber.com) which uses OAuth 2.0.\n\nContact Support:\n Name: Tibber Developer",
+      "type": "text/plain"
+    }
+  }
+}

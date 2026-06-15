@@ -1,0 +1,39 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Tibber GraphQL API",
+    "version": "v1-beta"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "GraphQL",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Execute GraphQL Operation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tibber.com/v1-beta/gql",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Single HTTPS endpoint that accepts every GraphQL query, mutation, and introspection request. The schema exposes the authenticated `viewer` plus their `homes`, hourly `priceInfo`, paginated `consumption` and `production` time series, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,138 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Tibber Data API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://thewall.tibber.com/connect/authorize",
+      "accessTokenUrl": "https://thewall.tibber.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Homes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Homes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://data-api.tibber.com/v1/homes"
+          },
+          "docs": "List the authenticated user's homes that the granted scopes permit access to."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Devices For Home",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://data-api.tibber.com/v1/homes/:homeId/devices",
+            "params": [
+              {
+                "name": "homeId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all linked devices in the given home. Devices only appear when the token carries the matching category scope (for example, `data-api-vehicles-read` for vehicles or `data-api-thermostats-read` for thermostats and heat pumps)."
+        },
+        {
+          "info": {
+            "name": "Get Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://data-api.tibber.com/v1/homes/:homeId/devices/:deviceId",
+            "params": [
+              {
+                "name": "homeId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return identity, attributes, capabilities, and `supportedHistory` for one device."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "History",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Device History",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://data-api.tibber.com/v1/homes/:homeId/devices/:deviceId/history",
+            "params": [
+              {
+                "name": "homeId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "resolution",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "since",
+                "value": "",
+                "type": "query",
+                "description": "Inclusive lower bound, used for forward pagination."
+              },
+              {
+                "name": "until",
+                "value": "",
+                "type": "query",
+                "description": "Inclusive upper bound, used for backward pagination."
+              }
+            ]
+          },
+          "docs": "Paginated, immutable historical time series for the device at the chosen resolution. Use `since` and `until` to bound the window and walk forward or backward; the API clamps the window to its retention policy and truncates minutes, seconds, and milliseconds. Follow the `next` and `prev` cursor links rather than picking arbitrary page sizes."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
