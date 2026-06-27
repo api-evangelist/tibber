@@ -75,11 +75,11 @@ apis:
     url: json-structure/tibber-price-structure.json
   - type: JSONStructure
     url: json-structure/tibber-live-measurement-structure.json
-  - type: Example
+  - type: Examples
     url: examples/tibber-current-price-example.json
-  - type: Example
+  - type: Examples
     url: examples/tibber-consumption-example.json
-  - type: Example
+  - type: Examples
     url: examples/tibber-live-measurement-example.json
   - url: graphql/tibber-graphql.md
     type: GraphQL
@@ -142,65 +142,46 @@ apis:
     url: json-schema/tibber-device-history-schema.json
   - type: JSONStructure
     url: json-structure/tibber-device-structure.json
-  - type: Example
+  - type: Examples
     url: examples/tibber-list-homes-example.json
-  - type: Example
+  - type: Examples
     url: examples/tibber-device-example.json
-  - type: Example
+  - type: Examples
     url: examples/tibber-device-history-example.json
 common:
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/tibber/overview
-- type: ArazzoWorkflows
-  url: arazzo/
-  workflows:
-  - url: arazzo/tibber-consumption-report-workflow.yml
-    name: Tibber Consumption Report
-    summary: >-
-      Discover the viewer's homes over GraphQL, then pull the most recent hourly consumption nodes with cost for the
-      chosen home.
-  - url: arazzo/tibber-current-price-by-home-workflow.yml
-    name: Tibber Current Price By Home
-    summary: >-
-      Discover the viewer's homes over GraphQL, then fetch the current hourly Nord Pool price and price level for
-      the chosen home.
-  - url: arazzo/tibber-inspect-connected-device-workflow.yml
-    name: Tibber Inspect Connected Device
-    summary: >-
-      List a home's connected devices and branch on the device category to read full detail for a vehicle, charger,
-      or other linked device.
-  - url: arazzo/tibber-price-alert-push-workflow.yml
-    name: Tibber Price Alert Push
-    summary: >-
-      Read the current price level over GraphQL, branch on whether power is cheap, and push a Tibber app
-      notification when it is.
-  - url: arazzo/tibber-production-report-workflow.yml
-    name: Tibber Production Report
-    summary: >-
-      Discover the viewer's homes over GraphQL, then pull the most recent hourly production nodes with profit for
-      the chosen home.
-  - url: arazzo/tibber-pull-device-history-workflow.yml
-    name: Tibber Pull Device History
-    summary: >-
-      Discover a home, find one of its connected devices, confirm the resolution it supports, then pull a page of
-      historical telemetry.
-  - url: arazzo/tibber-realtime-power-readiness-workflow.yml
-    name: Tibber Real-Time Power Readiness
-    summary: >-
-      Resolve the WebSocket subscription URL and check whether a home has Tibber Pulse real-time consumption enabled
-      before opening a liveMeasurement stream.
-  - url: arazzo/tibber-submit-meter-reading-workflow.yml
-    name: Tibber Submit Meter Reading
-    summary: >-
-      Discover the viewer's home over GraphQL, then submit a manual meter reading for that home with the
-      sendMeterReading mutation.
+- type: Arazzo
+  url: arazzo/tibber-consumption-report-workflow.yml
+  name: Tibber Consumption Report
+- type: Arazzo
+  url: arazzo/tibber-current-price-by-home-workflow.yml
+  name: Tibber Current Price By Home
+- type: Arazzo
+  url: arazzo/tibber-inspect-connected-device-workflow.yml
+  name: Tibber Inspect Connected Device
+- type: Arazzo
+  url: arazzo/tibber-price-alert-push-workflow.yml
+  name: Tibber Price Alert Push
+- type: Arazzo
+  url: arazzo/tibber-production-report-workflow.yml
+  name: Tibber Production Report
+- type: Arazzo
+  url: arazzo/tibber-pull-device-history-workflow.yml
+  name: Tibber Pull Device History
+- type: Arazzo
+  url: arazzo/tibber-realtime-power-readiness-workflow.yml
+  name: Tibber Real-Time Power Readiness
+- type: Arazzo
+  url: arazzo/tibber-submit-meter-reading-workflow.yml
+  name: Tibber Submit Meter Reading
 - type: Portal
   url: https://tibber.com/en
 - type: Documentation
   url: https://developer.tibber.com
 - type: Documentation
   url: https://data-api.tibber.com/docs/
-- type: SignUp
+- type: Signup
   url: https://tibber.com/en
 - type: Store
   url: https://tibber.com/en/store
@@ -236,16 +217,16 @@ common:
 - type: GitHubRepository
   url: https://github.com/tibber/tibber-aws
   name: tibber-aws
-- type: SDK
+- type: SDKs
   url: https://github.com/tibber/Tibber.SDK.NET
   name: Official C# / .NET SDK
-- type: SDK
+- type: SDKs
   url: https://github.com/bisand/tibber-api
   name: Community Node.js / TypeScript SDK (tibber-api)
-- type: SDK
+- type: SDKs
   url: https://github.com/stefanes/PSTibber
   name: Community PowerShell module (PSTibber)
-- type: SDK
+- type: SDKs
   url: https://github.com/mkalen/tibber-graphql-client
   name: Community Java GraphQL client
 - type: Plugins
@@ -256,7 +237,7 @@ common:
   name: Fibaro Tibber Live integration
 - type: Careers
   url: https://jobs.tibber.com/
-- type: Forum
+- type: Forums
   url: https://www.facebook.com/groups/tibbergebruikers/
   name: Tibber Gebruikers (Netherlands user group)
 - type: SpectralRules
