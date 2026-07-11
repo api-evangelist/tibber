@@ -1,0 +1,27 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/tibber-data-api-openapi.yml, openapi/tibber-graphql-api-openapi.yml
+summary:
+  types:
+  - http
+  - oauth2
+  oauth2_flows:
+  - authorizationCode
+schemes:
+- name: oauth2
+  type: oauth2
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://thewall.tibber.com/connect/authorize
+    tokenUrl: https://thewall.tibber.com/connect/token
+    scopes: 11
+  description: OAuth 2.0 Authorization Code Flow with optional PKCE.
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- name: bearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: Personal access token issued at https://developer.tibber.com/settings/access-token.
+  sources:
+  - openapi/tibber-graphql-api-openapi.yml
