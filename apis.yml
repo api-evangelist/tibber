@@ -149,6 +149,10 @@ apis:
   - type: Examples
     url: examples/tibber-device-history-example.json
 common:
+- type: Authentication
+  url: authentication/tibber-authentication.yml
+- type: OAuthScopes
+  url: scopes/tibber-scopes.yml
 - type: PostmanWorkspace
   url: https://www.postman.com/kinlaneapi/tibber/overview
 - type: Arazzo

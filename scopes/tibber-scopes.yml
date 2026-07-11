@@ -1,0 +1,78 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/tibber-data-api-openapi.yml
+schemes:
+- name: oauth2
+  source: openapi/tibber-data-api-openapi.yml
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://thewall.tibber.com/connect/authorize
+    tokenUrl: https://thewall.tibber.com/connect/token
+  description: OAuth 2.0 Authorization Code Flow with optional PKCE.
+scopes:
+- scope: data-api-chargers-read
+  description: Read EV chargers and EVSE equipment.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: data-api-energy-systems-read
+  description: Read home batteries and hybrid systems.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: data-api-homes-read
+  description: List the user's homes.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: data-api-inverters-read
+  description: Read solar inverters.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: data-api-thermostats-read
+  description: Read thermostats, heat pumps, and space heaters.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: data-api-user-read
+  description: Basic user context (required baseline).
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: data-api-vehicles-read
+  description: Read connected electric vehicles.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: email
+  description: User email.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: offline_access
+  description: Issue refresh tokens.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: openid
+  description: OpenID identity.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
+- scope: profile
+  description: User profile.
+  flows:
+  - authorizationCode
+  sources:
+  - openapi/tibber-data-api-openapi.yml
