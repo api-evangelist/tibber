@@ -149,6 +149,8 @@ apis:
   - type: Examples
     url: examples/tibber-device-history-example.json
 common:
+- type: AgenticAccess
+  url: agentic-access/tibber-agentic-access.yml
 - type: DomainSecurity
   url: security/tibber-domain-security.yml
 - type: Authentication
