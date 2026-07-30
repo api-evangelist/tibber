@@ -2,6 +2,19 @@ aid: tibber
 name: Tibber
 url: https://raw.githubusercontent.com/api-evangelist/tibber/main/apis.yml
 humanURL: https://tibber.com/en
+accessModel:
+  pricing: freemium
+  onboarding: self-serve
+  trial: false
+  try_now: true
+  public: false
+  label: Freemium · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 image: https://tibber.com/favicon.ico
 tags:
 - Energy
@@ -41,11 +54,11 @@ apis:
   - ElectricityPricing
   - SmartMeter
   description: >-
-    Tibber's long-standing GraphQL API. A single HTTPS endpoint serves the `viewer` query (with nested `homes`,
-    `currentSubscription`, `priceInfo`, `consumption`, `production`, and `features`), the `liveMeasurement` websocket
-    subscription that streams sub-second power, voltage, and current readings from a paired Tibber Pulse, and the
-    `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations. Authentication is a personal access token
-    issued at developer.tibber.com.
+    Tibber's long-standing GraphQL API. A single HTTPS endpoint serves the `viewer` query (with nested
+    `homes`, `currentSubscription`, `priceInfo`, `consumption`, `production`, and `features`), the `liveMeasurement`
+    websocket subscription that streams sub-second power, voltage, and current readings from a paired
+    Tibber Pulse, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations. Authentication
+    is a personal access token issued at developer.tibber.com.
   properties:
   - type: Documentation
     url: https://developer.tibber.com/docs
@@ -83,27 +96,18 @@ apis:
     url: examples/tibber-live-measurement-example.json
   - url: graphql/tibber-graphql.md
     type: GraphQL
-- aid: tibber:tibber-data-api
-  name: Tibber Data API
-  humanURL: https://data-api.tibber.com/docs/
-  baseURL: https://data-api.tibber.com/v1
-  tags:
-  - Energy
-  - REST
-  - OAuth2
-  - IoT
-  - ElectricVehicle
-  - HeatPump
-  - SolarInverter
-  - HomeBattery
+- aid: tibber:tibber-devices-api
+  name: Tibber Devices API
   description: >-
-    Tibber's modern REST API for third-party connected IoT devices. OAuth 2.0 Authorization Code Flow with PKCE;
-    scopes gate each device category (`data-api-vehicles-read`, `data-api-chargers-read`, `data-api-thermostats-read`,
-    `data-api-inverters-read`, `data-api-energy-systems-read`). Endpoints list homes, list and inspect devices, and
-    walk paginated immutable device history at quarter-hour, hour, day, or month resolution. Tibber Pulse live
-    streaming, pricing, and proprietary optimisation logic are explicitly out of scope and remain on the legacy
-    GraphQL API.
+    IoT devices linked to a home, exposed across vehicles, chargers, thermostats, inverters, and energy
+    systems.
+  humanURL: https://developer.tibber.com/docs
+  baseURL: https://api.tibber.com/v1-beta/gql
+  tags:
+  - Devices
   properties:
+  - type: OpenAPI
+    url: openapi/tibber-devices-api-openapi.yml
   - type: Documentation
     url: https://data-api.tibber.com/docs/
   - type: Documentation
@@ -134,8 +138,110 @@ apis:
     url: https://data-api.tibber.com/docs/managing-clients/
   - type: Console
     url: https://data-api.tibber.com/clients/manage/
+  - type: JSONSchema
+    url: json-schema/tibber-device-schema.json
+  - type: JSONSchema
+    url: json-schema/tibber-device-history-schema.json
+  - type: JSONStructure
+    url: json-structure/tibber-device-structure.json
+  - type: Examples
+    url: examples/tibber-list-homes-example.json
+  - type: Examples
+    url: examples/tibber-device-example.json
+  - type: Examples
+    url: examples/tibber-device-history-example.json
+- aid: tibber:tibber-history-api
+  name: Tibber History API
+  description: Historical time series at quarter-hour, hourly, daily, and monthly resolution.
+  humanURL: https://developer.tibber.com/docs
+  baseURL: https://api.tibber.com/v1-beta/gql
+  tags:
+  - History
+  properties:
   - type: OpenAPI
-    url: openapi/tibber-data-api-openapi.yml
+    url: openapi/tibber-history-api-openapi.yml
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/get-started/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/api-usage/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/api-usage/rate-limiting/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/api-usage/retry-backoff/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/api-usage/troubleshooting/
+  - type: Authentication
+    url: https://data-api.tibber.com/docs/auth/
+  - type: Scopes
+    url: https://data-api.tibber.com/docs/scopes/
+  - type: Sandbox
+    url: https://data-api.tibber.com/playground/
+  - type: ChangeLog
+    url: https://data-api.tibber.com/docs/changelog/
+  - type: FAQ
+    url: https://data-api.tibber.com/docs/further-reading/faq/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/devices/supported/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/devices/device-history/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/managing-clients/
+  - type: Console
+    url: https://data-api.tibber.com/clients/manage/
+  - type: JSONSchema
+    url: json-schema/tibber-device-schema.json
+  - type: JSONSchema
+    url: json-schema/tibber-device-history-schema.json
+  - type: JSONStructure
+    url: json-structure/tibber-device-structure.json
+  - type: Examples
+    url: examples/tibber-list-homes-example.json
+  - type: Examples
+    url: examples/tibber-device-example.json
+  - type: Examples
+    url: examples/tibber-device-history-example.json
+- aid: tibber:tibber-homes-api
+  name: Tibber Homes API
+  description: Tibber customer homes the calling client has been granted access to.
+  humanURL: https://developer.tibber.com/docs
+  baseURL: https://api.tibber.com/v1-beta/gql
+  tags:
+  - Homes
+  properties:
+  - type: OpenAPI
+    url: openapi/tibber-homes-api-openapi.yml
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/get-started/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/api-usage/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/api-usage/rate-limiting/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/api-usage/retry-backoff/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/api-usage/troubleshooting/
+  - type: Authentication
+    url: https://data-api.tibber.com/docs/auth/
+  - type: Scopes
+    url: https://data-api.tibber.com/docs/scopes/
+  - type: Sandbox
+    url: https://data-api.tibber.com/playground/
+  - type: ChangeLog
+    url: https://data-api.tibber.com/docs/changelog/
+  - type: FAQ
+    url: https://data-api.tibber.com/docs/further-reading/faq/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/devices/supported/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/devices/device-history/
+  - type: Documentation
+    url: https://data-api.tibber.com/docs/managing-clients/
+  - type: Console
+    url: https://data-api.tibber.com/clients/manage/
   - type: JSONSchema
     url: json-schema/tibber-device-schema.json
   - type: JSONSchema
