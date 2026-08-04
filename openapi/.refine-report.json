@@ -1,0 +1,20 @@
+{
+  "provider": "tibber",
+  "sources": [
+    "tibber-devices-api-openapi.yml",
+    "tibber-graphql-api-openapi.yml",
+    "tibber-history-api-openapi.yml",
+    "tibber-homes-api-openapi.yml"
+  ],
+  "outputs": [
+    "tibber-devices-api-openapi.yml",
+    "tibber-graphql-api-openapi.yml",
+    "tibber-history-api-openapi.yml",
+    "tibber-homes-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
