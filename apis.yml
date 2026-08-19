@@ -39,7 +39,7 @@ description: >-
   heat pumps, inverters, home batteries) linked through the Tibber mobile app.
 created: '2026-05-25'
 modified: '2026-05-25'
-specificationVersion: '0.16'
+specificationVersion: '0.23'
 type: Index
 position: Consuming
 apis:
