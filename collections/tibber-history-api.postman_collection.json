@@ -1,0 +1,351 @@
+{
+  "item": [
+    {
+      "id": "cc458128-dfd9-41f6-9ffb-56b963951369",
+      "name": "History",
+      "description": {
+        "content": "Historical time series at quarter-hour, hourly, daily, and monthly resolution.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c49a76fd-2122-40e9-8365-6cdd7dfc6be3",
+          "name": "Get Device History",
+          "request": {
+            "name": "Get Device History",
+            "description": {
+              "content": "Paginated, immutable historical time series for the device at the chosen resolution. Use `since` and `until` to bound the window and walk forward or backward; the API clamps the window to its retention policy and truncates minutes, seconds, and milliseconds. Follow the `next` and `prev` cursor links rather than picking arbitrary page sizes.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "homes",
+                ":homeId",
+                "devices",
+                ":deviceId",
+                "history"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "resolution",
+                  "value": "<string>",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "key": "since",
+                  "value": "<dateTime>",
+                  "description": "Inclusive lower bound, used for forward pagination."
+                },
+                {
+                  "disabled": false,
+                  "key": "until",
+                  "value": "<dateTime>",
+                  "description": "Inclusive upper bound, used for backward pagination."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "homeId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deviceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a6224d40-5eb0-4962-aaca-83633c718577",
+              "name": "A page of device history points.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices",
+                    ":deviceId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resolution",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "since",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "until",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"query\": {\n    \"effectiveStart\": \"2009-05-29T10:22:54.082Z\",\n    \"effectiveEnd\": \"2016-03-16T23:01:40.613Z\",\n    \"resolution\": \"string\"\n  },\n  \"data\": [\n    {\n      \"from\": \"2003-03-23T19:56:05.852Z\",\n      \"to\": \"1974-02-09T12:27:18.592Z\",\n      \"metrics\": {\n        \"key_0\": 4599.747465524453,\n        \"key_1\": 6342.193815476986\n      }\n    },\n    {\n      \"from\": \"1996-09-30T04:48:00.841Z\",\n      \"to\": \"1958-01-17T02:04:34.052Z\",\n      \"metrics\": {\n        \"key_0\": 1626.4112077742398,\n        \"key_1\": 9337.946781650502\n      }\n    }\n  ],\n  \"next\": \"http://FzZSDWIXAM.njbmlzfC+\",\n  \"prev\": \"http://V.msuIUjW-lf\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57b5b3bb-33ad-4506-aa8d-1cc04a340072",
+              "name": "Device not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices",
+                    ":deviceId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resolution",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "since",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "until",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "29037d08-8313-42a7-a5c3-f5fb8f5f33a6",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices",
+                    ":deviceId",
+                    "history"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "resolution",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "since",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "until",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://data-api.tibber.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "openid profile email offline_access data-api-user-read data-api-homes-read data-api-vehicles-read data-api-chargers-read data-api-thermostats-read data-api-energy-systems-read data-api-inverters-read"
+      },
+      {
+        "key": "redirect_uri",
+        "value": "https://thewall.tibber.com/connect/token"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://thewall.tibber.com/connect/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://thewall.tibber.com/connect/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "895d4af4-4037-4e22-b9bf-48f3b1eeabbc",
+    "name": "Tibber Data Devices History API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Tibber's modern OAuth 2.0 REST API exposing third-party connected IoT devices and their historical time series. The API returns raw, normalized device telemetry for vehicles, EV chargers, thermostats, heat pumps, space heaters, solar inverters, and home batteries that customers have linked inside the Tibber mobile app. Authentication uses the Authorization Code Flow (PKCE recommended) at https://thewall.tibber.com/connect/authorize and https://thewall.tibber.com/connect/token. Tibber Pulse live streaming, pricing, and proprietary optimization logic are out of scope and remain on the legacy GraphQL API.\n\nContact Support:\n Name: Tibber Data API",
+      "type": "text/plain"
+    }
+  }
+}

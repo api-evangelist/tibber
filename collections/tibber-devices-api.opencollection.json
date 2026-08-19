@@ -1,0 +1,71 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Tibber Data Devices API",
+    "version": "v1"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "authorization_code",
+      "authorizationUrl": "https://thewall.tibber.com/connect/authorize",
+      "accessTokenUrl": "https://thewall.tibber.com/connect/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Devices",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Devices For Home",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://data-api.tibber.com/v1/homes/:homeId/devices",
+            "params": [
+              {
+                "name": "homeId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "List all linked devices in the given home. Devices only appear when the token carries the matching category scope (for example, `data-api-vehicles-read` for vehicles or `data-api-thermostats-read` for thermostats and heat pumps)."
+        },
+        {
+          "info": {
+            "name": "Get Device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://data-api.tibber.com/v1/homes/:homeId/devices/:deviceId",
+            "params": [
+              {
+                "name": "homeId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "deviceId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return identity, attributes, capabilities, and `supportedHistory` for one device."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

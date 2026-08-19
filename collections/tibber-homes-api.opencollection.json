@@ -1,7 +1,7 @@
 {
   "opencollection": "1.0.0",
   "info": {
-    "name": "Tibber Data Devices GraphQL API",
+    "name": "Tibber Data Devices Homes API",
     "version": "v1"
   },
   "request": {
@@ -19,24 +19,20 @@
   "items": [
     {
       "info": {
-        "name": "GraphQL",
+        "name": "Homes",
         "type": "folder"
       },
       "items": [
         {
           "info": {
-            "name": "Execute GraphQL Operation",
+            "name": "List Homes",
             "type": "http"
           },
           "http": {
-            "method": "POST",
-            "url": "https://data-api.tibber.com/gql",
-            "body": {
-              "type": "json",
-              "data": "{}"
-            }
+            "method": "GET",
+            "url": "https://data-api.tibber.com/v1/homes"
           },
-          "docs": "Single HTTPS endpoint that accepts every GraphQL query, mutation, and introspection request. The schema exposes the authenticated `viewer` plus their `homes`, hourly `priceInfo`, paginated `consumption` and `production` time series, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations."
+          "docs": "List the authenticated user's homes that the granted scopes permit access to."
         }
       ]
     }

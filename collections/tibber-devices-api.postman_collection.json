@@ -1,0 +1,589 @@
+{
+  "item": [
+    {
+      "id": "f663cb32-aba9-4ea3-92d3-78dc2e69229c",
+      "name": "Devices",
+      "description": {
+        "content": "IoT devices linked to a home, exposed across vehicles, chargers, thermostats, inverters, and energy systems.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1ce366a4-4b05-4ad2-a847-2516070ddc38",
+          "name": "List Devices For Home",
+          "request": {
+            "name": "List Devices For Home",
+            "description": {
+              "content": "List all linked devices in the given home. Devices only appear when the token carries the matching category scope (for example, `data-api-vehicles-read` for vehicles or `data-api-thermostats-read` for thermostats and heat pumps).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "homes",
+                ":homeId",
+                "devices"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "homeId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "97d6c698-b698-43d5-9055-6666282672db",
+              "name": "Array of devices for the home.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"category\": \"vehicle\",\n    \"vendor\": \"string\",\n    \"model\": \"string\",\n    \"attributes\": {\n      \"key_0\": \"string\",\n      \"key_1\": 1525,\n      \"key_2\": \"string\"\n    },\n    \"capabilities\": [\n      \"string\",\n      \"string\"\n    ],\n    \"supportedHistory\": [\n      \"quarterHour\",\n      \"quarterHour\"\n    ],\n    \"maxRetentionDays\": 9200\n  },\n  {\n    \"id\": \"string\",\n    \"category\": \"thermostat\",\n    \"vendor\": \"string\",\n    \"model\": \"string\",\n    \"attributes\": {\n      \"key_0\": 1454.6062776566039,\n      \"key_1\": 746,\n      \"key_2\": \"string\"\n    },\n    \"capabilities\": [\n      \"string\",\n      \"string\"\n    ],\n    \"supportedHistory\": [\n      \"hour\",\n      \"month\"\n    ],\n    \"maxRetentionDays\": 8571\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "97973fad-0d34-48be-9093-652218bf89ac",
+              "name": "Missing or expired access token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "2ce72de5-df5e-4d80-bbd5-cbb814112c64",
+              "name": "Token lacks a category scope.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "135de5c5-f90c-478f-8c2b-90c966ea8087",
+              "name": "Home not found or not accessible to caller.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5575ca9a-d81c-40f4-9e57-d53b8c8c9ae7",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "756e9a5e-3158-4fd8-992a-e779c8f6b924",
+          "name": "Get Device",
+          "request": {
+            "name": "Get Device",
+            "description": {
+              "content": "Return identity, attributes, capabilities, and `supportedHistory` for one device.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "homes",
+                ":homeId",
+                "devices",
+                ":deviceId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<uuid>",
+                  "key": "homeId",
+                  "description": "(Required) "
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "deviceId",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "15c7df2f-baf7-4cef-b7e9-b09954572f29",
+              "name": "Device representation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"category\": \"inverter\",\n  \"vendor\": \"string\",\n  \"model\": \"string\",\n  \"attributes\": {\n    \"key_0\": 9265,\n    \"key_1\": 941.6698540585511\n  },\n  \"capabilities\": [\n    \"string\",\n    \"string\"\n  ],\n  \"supportedHistory\": [\n    \"hour\",\n    \"month\"\n  ],\n  \"maxRetentionDays\": 4138\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8af265b1-e6ad-44f3-a679-44e1eaceafbe",
+              "name": "Device not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "91e21338-4e7f-4136-82a1-54b0662e2861",
+              "name": "Rate limit exceeded.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes",
+                    ":homeId",
+                    "devices",
+                    ":deviceId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<uuid>",
+                      "key": "homeId",
+                      "description": "(Required) "
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "deviceId",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://data-api.tibber.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "scope",
+        "value": "openid profile email offline_access data-api-user-read data-api-homes-read data-api-vehicles-read data-api-chargers-read data-api-thermostats-read data-api-energy-systems-read data-api-inverters-read"
+      },
+      {
+        "key": "redirect_uri",
+        "value": "https://thewall.tibber.com/connect/token"
+      },
+      {
+        "key": "accessTokenUrl",
+        "value": "https://thewall.tibber.com/connect/token"
+      },
+      {
+        "key": "authUrl",
+        "value": "https://thewall.tibber.com/connect/authorize"
+      },
+      {
+        "key": "grant_type",
+        "value": "authorization_code"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "3d38e58c-2aee-4b44-a41d-54dc8ef4bea0",
+    "name": "Tibber Data Devices API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Tibber's modern OAuth 2.0 REST API exposing third-party connected IoT devices and their historical time series. The API returns raw, normalized device telemetry for vehicles, EV chargers, thermostats, heat pumps, space heaters, solar inverters, and home batteries that customers have linked inside the Tibber mobile app. Authentication uses the Authorization Code Flow (PKCE recommended) at https://thewall.tibber.com/connect/authorize and https://thewall.tibber.com/connect/token. Tibber Pulse live streaming, pricing, and proprietary optimization logic are out of scope and remain on the legacy GraphQL API.\n\nContact Support:\n Name: Tibber Data API",
+      "type": "text/plain"
+    }
+  }
+}

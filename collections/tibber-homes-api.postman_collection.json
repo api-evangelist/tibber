@@ -1,25 +1,26 @@
 {
   "item": [
     {
-      "id": "8a2aedf6-8f8b-4d64-8a5b-0f3db901858b",
-      "name": "GraphQL",
+      "id": "a25be5ee-1cf8-411f-aea8-a66317d0ff32",
+      "name": "Homes",
       "description": {
-        "content": "Single GraphQL endpoint serving Query, RootMutation, and RootSubscription.",
+        "content": "Tibber customer homes the calling client has been granted access to.",
         "type": "text/plain"
       },
       "item": [
         {
-          "id": "bf80baa6-28e5-47be-8b1f-f08d3090c1db",
-          "name": "Execute GraphQL Operation",
+          "id": "459046b4-97d7-46a1-9ebe-11de38d9c118",
+          "name": "List Homes",
           "request": {
-            "name": "Execute GraphQL Operation",
+            "name": "List Homes",
             "description": {
-              "content": "Single HTTPS endpoint that accepts every GraphQL query, mutation, and introspection request. The schema exposes the authenticated `viewer` plus their `homes`, hourly `priceInfo`, paginated `consumption` and `production` time series, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations.",
+              "content": "List the authenticated user's homes that the granted scopes permit access to.",
               "type": "text/plain"
             },
             "url": {
               "path": [
-                "gql"
+                "v1",
+                "homes"
               ],
               "host": [
                 "{{baseUrl}}"
@@ -29,34 +30,22 @@
             },
             "header": [
               {
-                "key": "Content-Type",
-                "value": "application/json"
-              },
-              {
                 "key": "Accept",
                 "value": "application/json"
               }
             ],
-            "method": "POST",
-            "auth": null,
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"<string>\",\n  \"operationName\": \"<string>\",\n  \"variables\": {\n    \"key_0\": \"string\"\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            }
+            "method": "GET",
+            "auth": null
           },
           "response": [
             {
-              "id": "8990f12b-2ac3-4927-aecd-afce180a9b3d",
-              "name": "GraphQL response payload (data and/or errors).",
+              "id": "e02905fd-f093-4912-bf30-6dc4b2c91676",
+              "name": "Array of home identifiers and high-level home metadata.",
               "originalRequest": {
                 "url": {
                   "path": [
-                    "gql"
+                    "v1",
+                    "homes"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -78,16 +67,8 @@
                     "value": "application/json"
                   }
                 ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"query\": \"{ viewer { homes { currentSubscription { priceInfo { current { total energy tax startsAt currency level } } } } } }\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
+                "method": "GET",
+                "body": {}
               },
               "status": "OK",
               "code": 200,
@@ -97,17 +78,18 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\n  \"data\": {\n    \"key_0\": \"string\",\n    \"key_1\": 582.1695338742738,\n    \"key_2\": 7580\n  }\n}",
+              "body": "[\n  {\n    \"id\": \"d8686247-cc21-dc22-07d3-87981af54cd9\",\n    \"nickname\": \"string\",\n    \"timeZone\": \"string\"\n  },\n  {\n    \"id\": \"deceba38-3a37-e8b3-af7f-b91b98cbf303\",\n    \"nickname\": \"string\",\n    \"timeZone\": \"string\"\n  }\n]",
               "cookie": [],
               "_postman_previewlanguage": "json"
             },
             {
-              "id": "8a9f34a0-ae0b-4d3d-a8c7-bd4a0be42e01",
-              "name": "Missing or invalid bearer token.",
+              "id": "40d2ab28-85fa-4768-be7b-b140646c8c40",
+              "name": "Missing or expired access token.",
               "originalRequest": {
                 "url": {
                   "path": [
-                    "gql"
+                    "v1",
+                    "homes"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -125,16 +107,8 @@
                     "value": "<token>"
                   }
                 ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"query\": \"{ viewer { homes { currentSubscription { priceInfo { current { total energy tax startsAt currency level } } } } } }\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                }
+                "method": "GET",
+                "body": {}
               },
               "status": "Unauthorized",
               "code": 401,
@@ -149,12 +123,13 @@
               "_postman_previewlanguage": "text"
             },
             {
-              "id": "7b79d966-e53f-4bfd-9b09-4606c7a0d82a",
-              "name": "Rate limit exceeded.",
+              "id": "367cba12-28f2-4750-8f36-37f6e373fdc2",
+              "name": "Token lacks the `data-api-homes-read` scope.",
               "originalRequest": {
                 "url": {
                   "path": [
-                    "gql"
+                    "v1",
+                    "homes"
                   ],
                   "host": [
                     "{{baseUrl}}"
@@ -172,16 +147,48 @@
                     "value": "<token>"
                   }
                 ],
-                "method": "POST",
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"query\": \"{ viewer { homes { currentSubscription { priceInfo { current { total energy tax startsAt currency level } } } } } }\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
                 }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "5da7dbf9-74cc-43ce-9727-8ca856aea107",
+              "name": "Rate limit exceeded; honour the `Retry-After` header.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "homes"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
               },
               "status": "Too Many Requests",
               "code": 429,
@@ -239,8 +246,8 @@
     ]
   },
   "info": {
-    "_postman_id": "fd823ebd-1982-484c-9abb-9ca16ac79a32",
-    "name": "Tibber Data Devices GraphQL API",
+    "_postman_id": "ce2dfe59-b481-4025-b39f-c21c07546011",
+    "name": "Tibber Data Devices Homes API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": {
       "content": "Tibber's modern OAuth 2.0 REST API exposing third-party connected IoT devices and their historical time series. The API returns raw, normalized device telemetry for vehicles, EV chargers, thermostats, heat pumps, space heaters, solar inverters, and home batteries that customers have linked inside the Tibber mobile app. Authentication uses the Authorization Code Flow (PKCE recommended) at https://thewall.tibber.com/connect/authorize and https://thewall.tibber.com/connect/token. Tibber Pulse live streaming, pricing, and proprietary optimization logic are out of scope and remain on the legacy GraphQL API.\n\nContact Support:\n Name: Tibber Data API",
