@@ -14,7 +14,7 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: tibberGraphqlApi
+- name: graphqlApi
   url: ../openapi/tibber-graphql-api-openapi.yml
   type: openapi
 workflows:

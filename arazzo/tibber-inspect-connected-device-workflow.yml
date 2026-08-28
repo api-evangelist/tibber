@@ -12,8 +12,11 @@ info:
     underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: tibberDataApi
-  url: ../openapi/tibber-data-api-openapi.yml
+- name: devicesApi
+  url: ../openapi/tibber-devices-api-openapi.yml
+  type: openapi
+- name: homesApi
+  url: ../openapi/tibber-homes-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: inspect-connected-device
