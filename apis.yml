@@ -2,6 +2,20 @@ aid: tibber
 name: Tibber
 url: https://raw.githubusercontent.com/api-evangelist/tibber/main/apis.yml
 humanURL: https://tibber.com/en
+deliveryModel:
+  model: open-core
+  license: MIT
+  open_source: true
+  commercial: true
+  callable_host: true
+  label: Open core · an OSS project plus a commercial hosted product
+  confidence: high
+  source:
+  - license
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
@@ -273,6 +287,8 @@ apis:
   - type: Examples
     url: examples/tibber-device-history-example.json
 common:
+- type: IssueTracker
+  url: https://github.com/tibber/Tibber.SDK.NET/issues
 - type: License
   name: MIT
   url: https://github.com/tibber/Tibber.SDK.NET/blob/master/LICENSE
