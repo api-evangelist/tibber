@@ -32,13 +32,13 @@ accessModel:
 image: https://tibber.com/favicon.ico
 tags:
 - Energy
-- Smart Home
-- Smart Meter
+- SmartHome
+- SmartMeter
 - ElectricityPricing
-- Electric Vehicle Charging
+- ElectricVehicleCharging
 - HeatPump
 - SolarInverter
-- Home Battery
+- HomeBattery
 - GraphQL
 - Authentication
 - Nordic
@@ -78,7 +78,7 @@ apis:
   - GraphQL
   - LiveMeasurement
   - ElectricityPricing
-  - Smart Meter
+  - SmartMeter
   tags_raw:
   - Energy
   - GraphQL
