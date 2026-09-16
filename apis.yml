@@ -69,68 +69,11 @@ specificationVersion: '0.23'
 type: Index
 position: Consuming
 apis:
-- aid: tibber:tibber-graphql-api
-  name: Tibber GraphQL API
-  humanURL: https://developer.tibber.com/docs
-  baseURL: https://api.tibber.com/v1-beta/gql
-  tags:
-  - Energy
-  - GraphQL
-  - LiveMeasurement
-  - ElectricityPricing
-  - Smart Meter
-  tags_raw:
-  - Energy
-  - GraphQL
-  - LiveMeasurement
-  - ElectricityPricing
-  - SmartMeter
-  description: Tibber's long-standing GraphQL API. A single HTTPS endpoint serves the `viewer` query (with
-    nested `homes`, `currentSubscription`, `priceInfo`, `consumption`, `production`, and `features`),
-    the `liveMeasurement` websocket subscription that streams sub-second power, voltage, and current readings
-    from a paired Tibber Pulse, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations.
-    Authentication is a personal access token issued at developer.tibber.com.
-  properties:
-  - type: Documentation
-    url: https://developer.tibber.com/docs
-  - type: Documentation
-    url: https://developer.tibber.com/docs/guides/calling-api
-  - type: Documentation
-    url: https://developer.tibber.com/docs/guides/graphql-concepts
-  - type: APIReference
-    url: https://developer.tibber.com/docs/reference
-  - type: Sandbox
-    url: https://developer.tibber.com/explorer
-  - type: Authentication
-    url: https://developer.tibber.com/settings/access-token
-  - type: OpenAPI
-    url: openapi/tibber-graphql-api-openapi.yml
-  - type: JSONSchema
-    url: json-schema/tibber-home-schema.json
-  - type: JSONSchema
-    url: json-schema/tibber-price-schema.json
-  - type: JSONSchema
-    url: json-schema/tibber-consumption-schema.json
-  - type: JSONSchema
-    url: json-schema/tibber-live-measurement-schema.json
-  - type: JSONStructure
-    url: json-structure/tibber-home-structure.json
-  - type: JSONStructure
-    url: json-structure/tibber-price-structure.json
-  - type: JSONStructure
-    url: json-structure/tibber-live-measurement-structure.json
-  - type: Examples
-    url: examples/tibber-current-price-example.json
-  - type: Examples
-    url: examples/tibber-consumption-example.json
-  - type: Examples
-    url: examples/tibber-live-measurement-example.json
-  - url: graphql/tibber-graphql.md
-    type: GraphQL
 - aid: tibber:tibber-devices-api
   name: Tibber Devices API
-  description: IoT devices linked to a home, exposed across vehicles, chargers, thermostats, inverters,
-    and energy systems.
+  description: >-
+    IoT devices linked to a home, exposed across vehicles, chargers, thermostats, inverters, and energy
+    systems.
   humanURL: https://developer.tibber.com/docs
   baseURL: https://api.tibber.com/v1-beta/gql
   tags:
@@ -284,6 +227,50 @@ apis:
     url: examples/tibber-device-example.json
   - type: Examples
     url: examples/tibber-device-history-example.json
+- aid: tibber:tibber-graph-ql-api
+  name: Tibber Graph QL API
+  description: Single GraphQL endpoint serving Query, RootMutation, and RootSubscription.
+  humanURL: https://developer.tibber.com/docs
+  baseURL: https://api.tibber.com/v1-beta/gql
+  tags:
+  - Graph QL
+  properties:
+  - type: OpenAPI
+    url: openapi/tibber-graph-ql-api-openapi.yml
+  - type: Documentation
+    url: https://developer.tibber.com/docs
+  - type: Documentation
+    url: https://developer.tibber.com/docs/guides/calling-api
+  - type: Documentation
+    url: https://developer.tibber.com/docs/guides/graphql-concepts
+  - type: APIReference
+    url: https://developer.tibber.com/docs/reference
+  - type: Sandbox
+    url: https://developer.tibber.com/explorer
+  - type: Authentication
+    url: https://developer.tibber.com/settings/access-token
+  - type: JSONSchema
+    url: json-schema/tibber-home-schema.json
+  - type: JSONSchema
+    url: json-schema/tibber-price-schema.json
+  - type: JSONSchema
+    url: json-schema/tibber-consumption-schema.json
+  - type: JSONSchema
+    url: json-schema/tibber-live-measurement-schema.json
+  - type: JSONStructure
+    url: json-structure/tibber-home-structure.json
+  - type: JSONStructure
+    url: json-structure/tibber-price-structure.json
+  - type: JSONStructure
+    url: json-structure/tibber-live-measurement-structure.json
+  - type: Examples
+    url: examples/tibber-current-price-example.json
+  - type: Examples
+    url: examples/tibber-consumption-example.json
+  - type: Examples
+    url: examples/tibber-live-measurement-example.json
+  - type: GraphQL
+    url: graphql/tibber-graphql.md
 common:
 - type: Website
   url: https://tibber.com
