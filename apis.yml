@@ -54,17 +54,17 @@ tags_raw:
 - GraphQL
 - OAuth2
 - Nordic
-description: >-
-  Tibber is a fully-digital Nordic and European retail electricity provider operating in Norway, Sweden, Germany, and
-  the Netherlands. Founded in 2016 by Daniel Lindén and Edgeir Vårdal Aksnes, the company passes Nord Pool / EPEX hourly
-  spot prices through to customers at cost and overlays software-driven optimisation for EV charging, heat pumps, and
-  rooftop solar to shift load to cheap and clean grid hours. Tibber publishes two distinct developer APIs: the
-  long-standing GraphQL endpoint at api.tibber.com/v1-beta/gql for customer, subscription, price, consumption,
-  production, and real-time `liveMeasurement` data streamed from the Tibber Pulse; and the newer OAuth 2.0 Data API at
-  data-api.tibber.com that exposes normalised time series for third-party IoT devices (vehicles, chargers, thermostats /
-  heat pumps, inverters, home batteries) linked through the Tibber mobile app.
+description: 'Tibber is a fully-digital Nordic and European retail electricity provider operating in Norway,
+  Sweden, Germany, and the Netherlands. Founded in 2016 by Daniel Lindén and Edgeir Vårdal Aksnes, the
+  company passes Nord Pool / EPEX hourly spot prices through to customers at cost and overlays software-driven
+  optimisation for EV charging, heat pumps, and rooftop solar to shift load to cheap and clean grid hours.
+  Tibber publishes two distinct developer APIs: the long-standing GraphQL endpoint at api.tibber.com/v1-beta/gql
+  for customer, subscription, price, consumption, production, and real-time `liveMeasurement` data streamed
+  from the Tibber Pulse; and the newer OAuth 2.0 Data API at data-api.tibber.com that exposes normalised
+  time series for third-party IoT devices (vehicles, chargers, thermostats / heat pumps, inverters, home
+  batteries) linked through the Tibber mobile app.'
 created: '2026-05-25'
-modified: '2026-05-25'
+modified: '2026-09-16'
 specificationVersion: '0.23'
 type: Index
 position: Consuming
@@ -85,12 +85,11 @@ apis:
   - LiveMeasurement
   - ElectricityPricing
   - SmartMeter
-  description: >-
-    Tibber's long-standing GraphQL API. A single HTTPS endpoint serves the `viewer` query (with nested
-    `homes`, `currentSubscription`, `priceInfo`, `consumption`, `production`, and `features`), the `liveMeasurement`
-    websocket subscription that streams sub-second power, voltage, and current readings from a paired
-    Tibber Pulse, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations. Authentication
-    is a personal access token issued at developer.tibber.com.
+  description: Tibber's long-standing GraphQL API. A single HTTPS endpoint serves the `viewer` query (with
+    nested `homes`, `currentSubscription`, `priceInfo`, `consumption`, `production`, and `features`),
+    the `liveMeasurement` websocket subscription that streams sub-second power, voltage, and current readings
+    from a paired Tibber Pulse, and the `sendMeterReading`, `updateHome`, and `sendPushNotification` mutations.
+    Authentication is a personal access token issued at developer.tibber.com.
   properties:
   - type: Documentation
     url: https://developer.tibber.com/docs
@@ -130,9 +129,8 @@ apis:
     type: GraphQL
 - aid: tibber:tibber-devices-api
   name: Tibber Devices API
-  description: >-
-    IoT devices linked to a home, exposed across vehicles, chargers, thermostats, inverters, and energy
-    systems.
+  description: IoT devices linked to a home, exposed across vehicles, chargers, thermostats, inverters,
+    and energy systems.
   humanURL: https://developer.tibber.com/docs
   baseURL: https://api.tibber.com/v1-beta/gql
   tags:
@@ -287,6 +285,8 @@ apis:
   - type: Examples
     url: examples/tibber-device-history-example.json
 common:
+- type: Website
+  url: https://tibber.com
 - type: IssueTracker
   url: https://github.com/tibber/Tibber.SDK.NET/issues
 - type: License
@@ -406,55 +406,51 @@ common:
 - type: Features
   data:
   - name: Hourly Spot Pricing Pass-Through
-    description: >-
-      Customers are billed at the Nord Pool / EPEX hourly spot price plus a fixed monthly fee, with no margin on the
-      energy component.
+    description: Customers are billed at the Nord Pool / EPEX hourly spot price plus a fixed monthly fee,
+      with no margin on the energy component.
   - name: Tibber Pulse Live Measurement
-    description: >-
-      Optional hardware clipped onto a smart-meter HAN or P1 port that streams ~2 s power, voltage, and current
-      readings into the GraphQL liveMeasurement subscription.
+    description: Optional hardware clipped onto a smart-meter HAN or P1 port that streams ~2 s power,
+      voltage, and current readings into the GraphQL liveMeasurement subscription.
   - name: GraphQL Customer API
-    description: >-
-      Single endpoint exposing viewer, homes, currentSubscription, priceInfo, consumption, and production with
-      hourly through annual resolution.
+    description: Single endpoint exposing viewer, homes, currentSubscription, priceInfo, consumption,
+      and production with hourly through annual resolution.
   - name: OAuth 2.0 Data API
-    description: >-
-      REST API for third-party IoT device data with PKCE-recommended Authorization Code Flow and category-scoped
-      device access.
+    description: REST API for third-party IoT device data with PKCE-recommended Authorization Code Flow
+      and category-scoped device access.
   - name: Smart EV Charging
     description: Schedules charging into cheap and clean grid hours for connected vehicles and EVSEs.
   - name: Smart Heat Pump Control
-    description: >-
-      Optimisation of air-to-air, air-to-water, and ground-source heat pumps to shift load to favourable price
-      windows.
+    description: Optimisation of air-to-air, air-to-water, and ground-source heat pumps to shift load
+      to favourable price windows.
   - name: Push Notification Mutation
-    description: >-
-      sendPushNotification GraphQL mutation lets approved integrators trigger notifications inside the Tibber mobile
-      app.
+    description: sendPushNotification GraphQL mutation lets approved integrators trigger notifications
+      inside the Tibber mobile app.
   - name: Meter Reading Mutation
     description: sendMeterReading lets customers and integrators submit cumulative meter readings programmatically.
   - name: Immutable Paginated Device History
-    description: >-
-      Data API serves cursor-paged device history at quarterHour, hour, day, and month resolutions with documented
-      retention.
+    description: Data API serves cursor-paged device history at quarterHour, hour, day, and month resolutions
+      with documented retention.
   - name: Per-Category OAuth Scopes
-    description: >-
-      Devices only surface when the access token carries the matching scope (vehicles, chargers, thermostats,
-      inverters, energy systems).
+    description: Devices only surface when the access token carries the matching scope (vehicles, chargers,
+      thermostats, inverters, energy systems).
 - type: UseCases
   data:
   - name: Home Energy Dashboards
-    description: Build personal or third-party dashboards combining hourly prices, hourly consumption, and live Pulse data.
+    description: Build personal or third-party dashboards combining hourly prices, hourly consumption,
+      and live Pulse data.
   - name: EV Charging Schedulers
     description: Pull tomorrow's prices and EV state-of-charge to schedule charging windows automatically.
   - name: Heat Pump Demand Response
     description: Shift heat-pump duty cycles toward CHEAP and VERY_CHEAP price hours.
   - name: PV Self-Consumption Reporting
-    description: Combine inverter history with home consumption to compute self-consumption and export economics.
+    description: Combine inverter history with home consumption to compute self-consumption and export
+      economics.
   - name: Aggregator / VPP Participation
-    description: Use device history and Pulse live data to support virtual power plant and demand response aggregation.
+    description: Use device history and Pulse live data to support virtual power plant and demand response
+      aggregation.
   - name: Home Assistant / Smart Home Integration
-    description: Surface Tibber prices and live consumption inside Home Assistant, Athom Homey, Fibaro, and SmartThings.
+    description: Surface Tibber prices and live consumption inside Home Assistant, Athom Homey, Fibaro,
+      and SmartThings.
 - type: Integrations
   data:
   - name: Home Assistant
@@ -464,7 +460,8 @@ common:
   - name: Fibaro
     description: Tibber Live marketplace plugin for Fibaro Home Center.
   - name: Tesla
-    description: Vehicle integration for smart charging and state-of-charge reporting via the Data API vehicles scope.
+    description: Vehicle integration for smart charging and state-of-charge reporting via the Data API
+      vehicles scope.
   - name: Ford
     description: Ford vehicle pairing surfaced through Data API vehicles scope (per May 2026 changelog).
   - name: Mill
@@ -480,7 +477,8 @@ common:
 - type: Solutions
   data:
   - name: Tibber Pulse IR / HAN / P1
-    description: Hardware product line that brings live consumption to homes whose smart meters lack a customer-readable port.
+    description: Hardware product line that brings live consumption to homes whose smart meters lack a
+      customer-readable port.
   - name: Tibber Marketplace
     description: Curated marketplace of compatible smart-home and EV hardware sold through tibber.com/en/store.
   - name: Tibber Grid Services (Sweden)
