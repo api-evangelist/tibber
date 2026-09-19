@@ -233,6 +233,8 @@ apis:
   humanURL: https://developer.tibber.com/docs
   baseURL: https://api.tibber.com/v1-beta/gql
   tags:
+  - GraphQL
+  tags_raw:
   - Graph QL
   properties:
   - type: OpenAPI
