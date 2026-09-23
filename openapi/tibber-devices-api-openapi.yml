@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Tibber Data Devices API
-  description: Tibber's modern OAuth 2.0 REST API exposing third-party connected IoT devices and their historical time series. The API returns raw, normalized device telemetry for vehicles, EV chargers, thermostats, heat pumps, space heaters, solar inverters, and home batteries that customers have linked inside the Tibber mobile app. Authentication uses the Authorization Code Flow (PKCE recommended) at https://thewall.tibber.com/connect/authorize and https://thewall.tibber.com/connect/token. Tibber Pulse live streaming, pricing, and proprietary optimization logic are out of scope and remain on the legacy GraphQL API.
+  description: Tibber's modern OAuth 2.0 REST API exposing third-party connected IoT devices and their historical time series.
   version: v1
   contact:
     name: Tibber Data API
