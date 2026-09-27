@@ -35,7 +35,7 @@ tags:
 - Smart Home
 - Smart Meter
 - ElectricityPricing
-- Electric Vehicle Charging
+- EV Charging
 - HeatPump
 - SolarInverter
 - Home Battery
@@ -54,6 +54,7 @@ tags_raw:
 - GraphQL
 - OAuth2
 - Nordic
+- Electric Vehicle Charging
 description: 'Tibber is a fully-digital Nordic and European retail electricity provider operating in Norway,
   Sweden, Germany, and the Netherlands. Founded in 2016 by Daniel Lindén and Edgeir Vårdal Aksnes, the
   company passes Nord Pool / EPEX hourly spot prices through to customers at cost and overlays software-driven
