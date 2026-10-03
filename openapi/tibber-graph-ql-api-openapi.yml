@@ -50,16 +50,6 @@ paths:
           description: Rate limit exceeded.
 components:
   schemas:
-    GraphQLResponse:
-      type: object
-      properties:
-        data:
-          type: object
-          additionalProperties: true
-        errors:
-          type: array
-          items:
-            type: object
     GraphQLRequest:
       type: object
       required:
@@ -73,6 +63,16 @@ components:
         variables:
           type: object
           additionalProperties: true
+    GraphQLResponse:
+      type: object
+      properties:
+        data:
+          type: object
+          additionalProperties: true
+        errors:
+          type: array
+          items:
+            type: object
   securitySchemes:
     oauth2:
       type: oauth2

@@ -69,19 +69,6 @@ paths:
           description: Rate limit exceeded.
 components:
   schemas:
-    DeviceHistoryPoint:
-      type: object
-      properties:
-        from:
-          type: string
-          format: date-time
-        to:
-          type: string
-          format: date-time
-        metrics:
-          type: object
-          additionalProperties:
-            type: number
     DeviceHistoryPage:
       type: object
       properties:
@@ -106,6 +93,19 @@ components:
         prev:
           type: string
           format: uri
+    DeviceHistoryPoint:
+      type: object
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+        metrics:
+          type: object
+          additionalProperties:
+            type: number
   securitySchemes:
     oauth2:
       type: oauth2
