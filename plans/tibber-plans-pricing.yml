@@ -1,3 +1,8 @@
+# Provenance stamped 2026-10-07 (roadmap#943): written by an API Evangelist sweep (dated 2026-05-25 by the file itself), not
+# harvested from the provider. `method: generated` so the economics campaign may replace it with a
+# dated, verbatim transcription; every figure below is unverified until it does.
+method: generated
+generated: '2026-05-25'
 specification: API Commons Plans
 specificationVersion: '0.1'
 schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
@@ -114,3 +119,45 @@ plans:
       - name: Vehicles, chargers, thermostats, inverters, energy systems
       - name: Quarter-hourly to monthly history
       - name: OAuth scopes per device category
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - metered
+  - one-time
+  - subscription
+  units:
+  - request
+  plans:
+  - name: Tibber Retail Subscription
+    access: other
+    model: subscription
+    model_how: stated
+    units:
+    - other
+    periods:
+    - month
+    - per-use
+  - name: Tibber Pulse Hardware
+    access: other
+    model: one-time
+    model_how: stated
+    units: []
+    periods:
+    - one-time
+  - name: Tibber Developer GraphQL API
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - request
+    periods:
+    - per-use
+  - name: Tibber Data API
+    access: other
+    model: metered
+    model_how: stated
+    units:
+    - request
+    periods:
+    - per-use
